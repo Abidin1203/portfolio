@@ -2393,53 +2393,38 @@ function App() {
           />
           </div>
 
-          {/* Text + highlights */}
+          {/* Teks ringkas + linimasa */}
           <div className="about-info">
             <p className="about-text about-text--lead reveal" style={{ '--reveal-delay': '0.1s' }}>
               Saya <strong>Muhamad A’biddin</strong>, lulusan{' '}
               <strong>S1 Informatika</strong> Universitas Sahid Surakarta
-              (2022–2026). Saya membangun <strong>sistem informasi berbasis web</strong>{' '}
-              yang membuat pekerjaan sehari-hari lebih rapi, cepat, dan mudah
-              dipantau.
+              (2022–2026) yang memiliki ketertarikan pada pengembangan{' '}
+              <strong>sistem informasi berbasis web</strong> dan{' '}
+              <strong>pengolahan data</strong>.
             </p>
 
             <p className="about-text reveal" style={{ '--reveal-delay': '0.2s' }}>
-              Proyek unggulan saya adalah <strong>POS Kasir Nasi Goreng Kongres</strong>,
-              sistem kasir berbasis web dengan dua peran: kasir memilih menu,
-              menerima pembayaran, dan mencetak struk, sedangkan admin memantau
-              pendapatan, produk terlaris, dan <strong>laporan penjualan</strong>.
-              Dibangun dengan <em>PHP</em>, <em>MySQL</em>, dan <em>JavaScript</em>.
-              Saya juga membuat prototype website pemesanan dan reservasi restoran
-              serta studi klasifikasi <em>machine learning</em>.
+              Saya berfokus pada pengembangan solusi digital yang dapat membantu
+              aktivitas operasional menjadi lebih terstruktur, efisien, dan mudah
+              digunakan. Salah satu proyek yang saya kembangkan adalah{' '}
+              <strong>POS Kasir Nasi Goreng Kongres</strong>, sistem kasir berbasis
+              web yang dirancang untuk mendukung proses transaksi dan pengelolaan
+              data penjualan.
             </p>
 
             <p className="about-text reveal" style={{ '--reveal-delay': '0.3s' }}>
-              Di luar pengembangan web, saya terbiasa mengolah data lewat{' '}
-              <strong>MSIB Data Science</strong> (Excel, Python, Tableau), mempelajari
-              rekayasa perangkat lunak di <strong>Pertukaran Mahasiswa MBKM</strong>,
-              dan berlatih bekerja dalam tim di <strong>HIMAIF</strong>. Saya cepat
-              belajar, teliti, dan siap berkontribusi di bidang{' '}
-              <strong>pengembangan web</strong> maupun <strong>pengelolaan data</strong>.
+              Selain pengembangan web, saya memperoleh pengalaman belajar di bidang{' '}
+              <strong>Data Science</strong> melalui program <strong>MSIB</strong>.
+              Pengalaman berorganisasi di <strong>HIMAIF</strong> juga membantu saya
+              mengembangkan kemampuan komunikasi, kerja sama tim, dan tanggung jawab.
             </p>
 
-            <div className="about-highlights reveal" style={{ '--reveal-delay': '0.4s' }}>
-              <div className="about-highlight-item">
-                <span className="about-highlight-icon">🎓</span>
-                <span>S1 Informatika · Universitas Sahid Surakarta</span>
-              </div>
-              <div className="about-highlight-item">
-                <span className="about-highlight-icon">💻</span>
-                <span>Web Developer</span>
-              </div>
-              <div className="about-highlight-item">
-                <span className="about-highlight-icon">📊</span>
-                <span>Data Science</span>
-              </div>
-              <div className="about-highlight-item">
-                <span className="about-highlight-icon">📍</span>
-                <span>Karawang, Indonesia</span>
-              </div>
-            </div>
+            <p className="about-text reveal" style={{ '--reveal-delay': '0.4s' }}>
+              Saya senantiasa terbuka untuk mempelajari hal baru, mengembangkan
+              kemampuan, dan berkontribusi dalam proyek di bidang{' '}
+              <strong>pengembangan web</strong> maupun{' '}
+              <strong>pengelolaan data</strong>.
+            </p>
 
             <div className="about-journey reveal" style={{ '--reveal-delay': '0.5s' }}>
               <div className="about-journey__lead">
