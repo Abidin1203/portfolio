@@ -127,13 +127,13 @@ const certificatesData = {
     },
   ],
   'Bahasa Inggris': [
-  {
-    title: 'Test of English as a Foreign Language (TOEFL) — Skor 460',
-    issuer: 'Universitas Sahid Surakarta',
-    year: '2026',
-    image: '/certificates/toefl.jpg',
-  },
-],
+    {
+      title: 'Test of English as a Foreign Language (TOEFL) — Skor 460',
+      issuer: 'Universitas Sahid Surakarta',
+      year: '2026',
+      image: '/certificates/toefl.jpg',
+    },
+  ],
 };
 
 // Data section Skills. Dikelompokkan jadi 4 kartu: Front-end, Back-end, Data & Analytics, Tools.
@@ -238,6 +238,8 @@ const experienceItems = [
   {
     image: '/experience/msib.jpg',
     imageAlt: 'Kegiatan Program MSIB',
+    // 'contain' = gambar ditampilkan utuh (cocok untuk logo). Kosong = memenuhi kotak.
+    fit: 'contain',
     badge: 'MSIB',
     title: 'Magang & Studi Independen Bersertifikat-Data Science',
     meta: 'PT Inovasi Lentera Cipta Kreasi | 2025',
@@ -1324,7 +1326,12 @@ function ExperienceCardContent({ item, onOpen }) {
   return (
     <>
       <div className="experience-card-media">
-        <img src={item.image} alt={item.imageAlt} loading="lazy" />
+        <img
+          src={item.image}
+          alt={item.imageAlt}
+          className={item.fit === 'contain' ? 'is-contain' : undefined}
+          loading="lazy"
+        />
       </div>
 
       <div className="experience-card-body">
