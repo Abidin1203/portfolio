@@ -6944,3 +6944,803 @@ html {
     font-size: 10px;
   }
 }
+
+
+/* =====================================================================
+   EXPERIENCE — JALUR PESAWAT + PANAH BERBELOK KE TIAP KARTU
+   SVG di belakang kartu (lihat ExperienceFlow di App.jsx). Pesawat
+   mengikuti scroll; panah muncul saat pesawat melewati titiknya dan
+   kartunya ikut menyala. Hanya stroke/transform/opacity, jadi ringan.
+   Ditaruh PALING BAWAH supaya mengalahkan aturan Experience sebelumnya.
+===================================================================== */
+.exp-flow {
+  position: relative;
+  isolation: isolate;
+  padding-top: 34px;
+}
+
+/* Di belakang kartu, tidak bisa diklik */
+.exp-flow__svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Jalur utama: putus-putus tipis */
+.exp-flow__trunk {
+  fill: none;
+  stroke: color-mix(in srgb, var(--accent) 50%, transparent);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 8;
+  stroke-linecap: round;
+}
+
+/* Bagian jalur yang sudah dilewati pesawat (digambar lewat JS) */
+.exp-flow__prog {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.85;
+}
+
+/* Cabang panah: tergambar bertahap begitu pesawat lewat (.is-hit) */
+.exp-flow__line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.exp-flow__head {
+  fill: none;
+  stroke: var(--accent-soft);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.5s;
+}
+
+.exp-flow__branch.is-hit .exp-flow__line {
+  stroke-dashoffset: 0;
+}
+
+.exp-flow__branch.is-hit .exp-flow__head {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------
+   PESAWAT 3D (CSS 3D saja). Digambar menghadap kanan; posisi + arah
+   hadap diatur dari JS lewat transform pada .exp-plane. Badan, sayap,
+   ekor, dan sirip ditumpuk di sumbu Z lalu dimiringkan (.xp-roll) supaya
+   terlihat bervolume.
+--------------------------------------------------------------------- */
+.exp-plane {
+  --pl-body-1: #ffffff;
+  --pl-body-2: #cfc4f5;
+  --pl-stripe: var(--accent);
+  --pl-wing-1: var(--accent-soft);
+  --pl-wing-2: var(--accent);
+  --pl-under: color-mix(in srgb, var(--accent) 55%, #1b0f3a);
+  --pl-win: #4c1d95;
+  --wing-clip: polygon(100% 100%, 26% 0, 7% 0, 36% 100%);
+  --stab-clip: polygon(100% 100%, 35% 0, 8% 0, 24% 100%);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+:root[data-theme="light"] .exp-plane {
+  --pl-body-1: #ffffff;
+  --pl-body-2: #ddd4fb;
+  --pl-wing-1: #8b5cf6;
+  --pl-wing-2: #6d28d9;
+}
+
+.xp-persp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  perspective: 520px;
+}
+
+.xp-roll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(56deg) rotateY(0deg);
+}
+
+.xp-roll > * {
+  position: absolute;
+}
+
+/* Bayangan di "tanah" (jauh di bawah pesawat) */
+.xp-shadow {
+  left: -52px;
+  top: -13px;
+  width: 104px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(var(--shadow-rgb) / 0.5), transparent);
+  filter: blur(3px);
+  transform: translateZ(-54px);
+}
+
+/* Jejak cahaya pendek di belakang pesawat */
+.xp-trail {
+  left: -170px;
+  top: -2px;
+  width: 112px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-soft) 85%, transparent));
+  transform: translateZ(-2px);
+  transform-origin: 100% 50%;
+}
+
+/* Badan: tiga lapis (bawah gelap, tengah, punggung terang) */
+.xp-body {
+  left: -60px;
+  top: -8px;
+  width: 124px;
+  height: 16px;
+  border-radius: 9px 62px 62px 9px / 8px 50% 50% 8px;
+  background: linear-gradient(
+    180deg,
+    var(--pl-body-1) 0 36%,
+    var(--pl-stripe) 36% 54%,
+    var(--pl-body-2) 54%
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+  transform-style: preserve-3d;
+  transform: translateZ(3px);
+}
+
+.xp-body::before,
+.xp-body::after {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+}
+
+.xp-body::before {
+  inset: 0;
+  background: var(--pl-under);
+  transform: translateZ(-6px);
+}
+
+.xp-body::after {
+  inset: 3px 4px 3px 6px;
+  background: linear-gradient(180deg, #ffffff, var(--pl-body-2));
+  opacity: 0.9;
+  transform: translateZ(5px);
+}
+
+/* Jendela penumpang */
+.xp-windows {
+  position: absolute;
+  top: 6px;
+  left: 20px;
+  width: 62px;
+  height: 4px;
+  background: radial-gradient(circle, var(--pl-win) 0 1.3px, transparent 1.7px) 0 50% / 7px 4px repeat-x;
+  transform: translateZ(6px);
+}
+
+/* Kokpit */
+.xp-cockpit {
+  left: 33px;
+  top: -4px;
+  width: 17px;
+  height: 8px;
+  border-radius: 4px 9px 9px 4px;
+  background: linear-gradient(135deg, #a5f3fc, #1e3a8a);
+  box-shadow: 0 0 6px rgb(103 232 249 / 0.6);
+  transform: translateZ(10px);
+}
+
+/* Sayap utama (kiri-atas & kanan-bawah di layar) */
+.xp-w {
+  width: 56px;
+  height: 46px;
+  transform-style: preserve-3d;
+}
+
+.xp-w--a {
+  left: -42px;
+  top: -44px;
+}
+
+.xp-w--b {
+  left: -42px;
+  top: -2px;
+  transform: scaleY(-1);
+}
+
+.xp-w i {
+  position: absolute;
+  inset: 0;
+  clip-path: var(--wing-clip);
+}
+
+.xp-w__top {
+  background: linear-gradient(100deg, var(--pl-wing-1), var(--pl-wing-2));
+  transform: translateZ(0);
+}
+
+.xp-w__under {
+  background: var(--pl-under);
+  transform: translateZ(-4px);
+}
+
+/* Sayap ekor kecil */
+.xp-s {
+  width: 26px;
+  height: 22px;
+  transform-style: preserve-3d;
+}
+
+.xp-s--a {
+  left: -66px;
+  top: -20px;
+}
+
+.xp-s--b {
+  left: -66px;
+  top: -2px;
+  transform: scaleY(-1);
+}
+
+.xp-s i {
+  position: absolute;
+  inset: 0;
+  clip-path: var(--stab-clip);
+}
+
+.xp-s__top {
+  background: linear-gradient(100deg, var(--pl-wing-1), var(--pl-wing-2));
+  transform: translateZ(1px);
+}
+
+.xp-s__under {
+  background: var(--pl-under);
+  transform: translateZ(-3px);
+}
+
+/* Sirip ekor: berdiri tegak di atas badan */
+.xp-fin {
+  left: -64px;
+  top: -11px;
+  width: 30px;
+  height: 22px;
+  background: linear-gradient(90deg, var(--pl-wing-2), var(--pl-wing-1));
+  clip-path: polygon(100% 100%, 22% 0, 0 0, 30% 100%);
+  transform: translateZ(18px) rotateX(-90deg);
+}
+
+/* Mesin di bawah sayap */
+.xp-eng {
+  left: -4px;
+  width: 20px;
+  height: 8px;
+  border-radius: 4px 6px 6px 4px;
+  background: linear-gradient(180deg, #ffffff, var(--pl-body-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+  transform: translateZ(-3px);
+}
+
+.xp-eng--a {
+  top: -30px;
+}
+
+.xp-eng--b {
+  top: 22px;
+}
+
+/* Lampu ujung sayap */
+.xp-light {
+  left: -32px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  transform: translateZ(3px);
+}
+
+.xp-light--a {
+  top: -46px;
+  background: #ff4d6d;
+  box-shadow: 0 0 8px 2px rgb(255 77 109 / 0.8);
+}
+
+.xp-light--b {
+  top: 41px;
+  background: #34d399;
+  box-shadow: 0 0 8px 2px rgb(52 211 153 / 0.8);
+}
+
+/* Animasi diam: pesawat sedikit miring-naik-turun, lampu berkedip.
+   Hanya jalan saat section terlihat (.is-live). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes xp-roll {
+    0%, 100% { transform: rotateX(52deg) rotateY(-5deg); }
+    50%      { transform: rotateX(62deg) rotateY(5deg); }
+  }
+
+  @keyframes xp-blink {
+    0%, 55%   { opacity: 1; }
+    56%, 100% { opacity: 0.15; }
+  }
+
+  @keyframes xp-trail {
+    0%, 100% { transform: translateZ(-2px) scaleX(1); opacity: 0.9; }
+    50%      { transform: translateZ(-2px) scaleX(0.6); opacity: 0.55; }
+  }
+
+  .exp-flow.is-live .xp-roll  { animation: xp-roll 4.2s ease-in-out infinite; }
+  .exp-flow.is-live .xp-light { animation: xp-blink 1.4s linear infinite; }
+  .exp-flow.is-live .xp-light--b { animation-delay: 0.7s; }
+  .exp-flow.is-live .xp-trail { animation: xp-trail 1.1s ease-in-out infinite; }
+}
+
+/* Kartu yang sudah "didatangi" pesawat menyala ungu tipis */
+.experience-card--list.is-reached {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 24px 50px rgba(139, 92, 246, 0.18);
+}
+
+/* HP: jalur lurus di sisi kiri, kartu digeser sedikit ke kanan */
+@media (max-width: 900px) {
+  .exp-flow {
+    padding-top: 0;
+    padding-left: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-flow__line,
+  .exp-flow__head {
+    transition: none;
+  }
+}
+
+
+/* =====================================================================
+   PROJECTS — LAPTOP 3D MELAYANG (latar section)
+   CSS 3D saja: layar + alas keyboard + bayangan. Layar bergantian:
+   halaman web → dashboard → kode (siklus 12 detik).
+   Hanya memakai transform/opacity, animasi jalan saat terlihat di layar
+   (kelas .is-live) dan mati kalau pengguna memilih "reduce motion".
+===================================================================== */
+.section.projects {
+  position: relative;
+  isolation: isolate;
+}
+
+.proj-laptop {
+  --lap-s: 0.9;
+  --lap-metal-1: #2c2745;
+  --lap-metal-2: #1a1730;
+  --lap-key: rgb(255 255 255 / 0.1);
+  --lap-gap: #1c1833;
+  --lap-edge: #0d0a1f;
+
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .proj-laptop {
+  --lap-metal-1: #cdc3ec;
+  --lap-metal-2: #b2a5dc;
+  --lap-key: rgb(255 255 255 / 0.55);
+  --lap-gap: #b8abe0;
+  --lap-edge: #8e7fc4;
+}
+
+.lap-float {
+  position: absolute;
+  top: 40px;
+  right: 3%;
+  width: 220px;
+  height: 140px;
+  opacity: 0.9;
+}
+
+/* Cahaya ungu lembut di belakang laptop (datar, di luar ruang 3D supaya tidak terpotong) */
+.lap-float::before {
+  content: '';
+  position: absolute;
+  inset: -50px -60px -90px -70px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 30%, transparent), transparent);
+  z-index: -1;
+}
+
+.lap-scale {
+  width: 220px;
+  height: 140px;
+  transform: scale(var(--lap-s));
+  transform-origin: 100% 0;
+}
+
+.lap-stage {
+  width: 220px;
+  height: 140px;
+  perspective: 900px;
+}
+
+.lap-tilt {
+  position: relative;
+  width: 220px;
+  height: 140px;
+  transform-style: preserve-3d;
+  transform: rotateX(-24deg) rotateY(-32deg);
+}
+
+/* ---------- Layar (tutup laptop) ---------- */
+.lap-lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 140px;
+  border-radius: 10px 10px 4px 4px;
+  background: #14112a;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(8deg);
+}
+
+.lap-back {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #0d0a1f;
+  transform: translateZ(-5px);
+}
+
+.lap-screen {
+  position: absolute;
+  inset: 7px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: radial-gradient(120% 100% at 50% 0%, #1d1840, #0d0a20);
+  transform: translateZ(0.5px);
+}
+
+/* Lapisan layar: tiga adegan bertumpuk */
+.lap-scene {
+  position: absolute;
+  inset: 0;
+  padding: 9px 10px;
+  opacity: 0;
+}
+
+/* Tanpa animasi (belum terlihat / reduce motion): layar diam = halaman web */
+.lap-scene--1 {
+  opacity: 1;
+}
+
+.lap-scene--2 {
+  --off: 4s;
+}
+
+.lap-scene--3 {
+  --off: 8s;
+}
+
+/* ---------- Adegan 1: halaman web ---------- */
+.lap-el {
+  display: block;
+  border-radius: 3px;
+}
+
+.lap-nav {
+  width: 100%;
+  height: 8px;
+  background: rgb(255 255 255 / 0.14);
+}
+
+.lap-h1 {
+  width: 62%;
+  height: 11px;
+  margin-top: 14px;
+  background: linear-gradient(90deg, var(--accent-soft), var(--accent));
+}
+
+.lap-h2 {
+  width: 40%;
+  height: 6px;
+  margin-top: 7px;
+  background: rgb(255 255 255 / 0.28);
+}
+
+.lap-btn {
+  width: 34px;
+  height: 10px;
+  margin-top: 9px;
+  border-radius: 6px;
+  background: var(--accent);
+}
+
+.lap-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.lap-card {
+  height: 32px;
+  border-radius: 5px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.2), rgb(255 255 255 / 0.06));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+/* ---------- Adegan 2: dashboard ---------- */
+.lap-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.lap-kpi {
+  height: 15px;
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-soft) 50%, transparent);
+}
+
+.lap-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 52px;
+  margin-top: 11px;
+}
+
+.lap-bar {
+  flex: 1;
+  height: var(--h);
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+  transform-origin: 50% 100%;
+}
+
+.lap-line {
+  display: block;
+  width: 100%;
+  height: 22px;
+  margin-top: 9px;
+  overflow: visible;
+}
+
+.lap-draw {
+  fill: none;
+  stroke: #67e8f9;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Adegan 3: kode ---------- */
+.lap-scene--3 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+}
+
+.lap-code {
+  display: block;
+  width: var(--w);
+  height: 5px;
+  margin-left: var(--ind);
+  border-radius: 3px;
+  transform-origin: 0 50%;
+}
+
+.lap-code--a { background: var(--accent-soft); }
+.lap-code--b { background: #67e8f9; }
+.lap-code--c { background: #f0abfc; }
+.lap-code--d { background: rgb(255 255 255 / 0.4); }
+
+.lap-caret {
+  display: block;
+  width: 5px;
+  height: 11px;
+  margin-top: 1px;
+  background: #ffffff;
+}
+
+/* ---------- Alas keyboard ---------- */
+.lap-deck {
+  position: absolute;
+  top: 140px;
+  left: 0;
+  width: 220px;
+  height: 120px;
+  border-radius: 0 0 12px 12px;
+  background: linear-gradient(180deg, var(--lap-metal-1), var(--lap-metal-2));
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  transform: rotateX(90deg);
+}
+
+/* Ketebalan alas (lapis bawah) */
+.lap-deck::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lap-edge);
+  transform: translateZ(-7px);
+}
+
+.lap-keys {
+  position: absolute;
+  inset: 12px 16px 42px;
+  border-radius: 4px;
+  background-color: var(--lap-key);
+  background-image:
+    linear-gradient(90deg, var(--lap-gap) 3px, transparent 3px),
+    linear-gradient(0deg, var(--lap-gap) 3px, transparent 3px);
+  background-size: 16px 16px;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.lap-pad {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 72px;
+  height: 22px;
+  margin-left: -36px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+/* Bayangan di bawah laptop */
+.lap-shadow {
+  position: absolute;
+  top: 158px;
+  left: -20px;
+  width: 260px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(var(--shadow-rgb) / 0.55), transparent);
+  filter: blur(6px);
+  transform-origin: 50% 0;
+  transform: rotateX(90deg) translateY(-26px);
+}
+
+/* ---------- Animasi (hanya saat terlihat & tidak "reduce motion") ---------- */
+@keyframes lap-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes lap-sway {
+  0%, 100% { transform: rotateX(-24deg) rotateY(-38deg); }
+  50%      { transform: rotateX(-20deg) rotateY(-20deg); }
+}
+
+@keyframes lap-scene {
+  0%        { opacity: 0; }
+  2%, 30%   { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+
+@keyframes lap-pop {
+  0%, 1%    { opacity: 0; transform: translateY(8px) scale(0.92); }
+  5%, 30%   { opacity: 1; transform: none; }
+  33%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes lap-grow {
+  0%, 2%    { transform: scaleY(0); }
+  10%, 30%  { transform: scaleY(1); }
+  33%, 100% { transform: scaleY(0); }
+}
+
+@keyframes lap-draw {
+  0%, 4%    { stroke-dashoffset: 1; }
+  18%, 31%  { stroke-dashoffset: 0; }
+  33%, 100% { stroke-dashoffset: 1; }
+}
+
+@keyframes lap-type {
+  0%, 1%    { transform: scaleX(0); }
+  7%, 30%   { transform: scaleX(1); }
+  33%, 100% { transform: scaleX(0); }
+}
+
+@keyframes lap-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .proj-laptop.is-live .lap-float {
+    animation: lap-float 7s ease-in-out infinite;
+  }
+
+  .proj-laptop.is-live .lap-tilt {
+    animation: lap-sway 11s ease-in-out infinite;
+  }
+
+  .proj-laptop.is-live .lap-scene {
+    animation: lap-scene 12s linear infinite;
+    animation-delay: var(--off, 0s);
+  }
+
+  .proj-laptop.is-live .lap-el {
+    animation: lap-pop 12s ease-out infinite backwards;
+    animation-delay: calc(var(--off, 0s) + var(--st, 0s));
+  }
+
+  .proj-laptop.is-live .lap-bar {
+    animation: lap-grow 12s cubic-bezier(0.22, 1, 0.36, 1) infinite backwards;
+    animation-delay: calc(var(--off, 0s) + var(--st, 0s));
+  }
+
+  .proj-laptop.is-live .lap-draw {
+    animation: lap-draw 12s ease-in-out infinite backwards;
+    animation-delay: calc(var(--off, 0s) + var(--st, 0s));
+  }
+
+  .proj-laptop.is-live .lap-code {
+    animation: lap-type 12s steps(12, end) infinite backwards;
+    animation-delay: calc(var(--off, 0s) + var(--st, 0s));
+  }
+
+  .proj-laptop.is-live .lap-caret {
+    animation: lap-blink 0.9s step-end infinite;
+  }
+}
+
+/* Layar sedang */
+@media (max-width: 1100px) {
+  .proj-laptop { --lap-s: 0.62; }
+  .lap-float { right: 1%; top: 34px; }
+}
+
+/* HP: lebih kecil & samar (hemat baterai) */
+@media (max-width: 700px) {
+  .proj-laptop { --lap-s: 0.4; }
+
+  .lap-float {
+    right: 4px;
+    top: 18px;
+    opacity: 0.55;
+  }
+
+  .proj-laptop.is-live .lap-tilt {
+    animation: none;
+  }
+}
