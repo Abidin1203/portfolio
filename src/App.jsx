@@ -1728,26 +1728,77 @@ function Footer({ theme }) {
 
         <div className="site-footer__col">
           <h4 className="site-footer__heading">Kontak</h4>
-          <ul>
-            <li>
-              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-            </li>
-            <li>
-              <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer">
-                WhatsApp {CONTACT.phone} <span aria-hidden="true">↗</span>
-              </a>
-            </li>
-            <li>
-              <span>{CONTACT.location}</span>
-            </li>
-            {socials.map((s) => (
-              <li key={s.label}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer">
-                  {s.label} <span aria-hidden="true">↗</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+
+          <div className="footer-icons">
+            {/* Email */}
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="footer-icon cursor-target"
+              aria-label="Email"
+              title="Email"
+            >
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" />
+              </svg>
+            </a>
+
+            {/* WhatsApp */}
+            <a
+              href={CONTACT.whatsapp} target="_blank"
+              rel="noopener noreferrer"
+              className="footer-icon cursor-target"
+              aria-label="WhatsApp"
+              title="WhatsApp"
+            >
+<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>
+            </a>
+
+            {/* GitHub */}
+            <a
+              href="https://github.com/Abidin1203" target="_blank"
+              rel="noopener noreferrer"
+              className="footer-icon cursor-target"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.61.56.1.76-.24.76-.54 0-.27-.01-1.16-.02-2.11-3.11.68-3.77-1.32-3.77-1.32-.51-1.3-1.24-1.65-1.24-1.65-1.01-.7.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.71 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.48-.28-5.1-1.24-5.1-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.54.22 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.62 5.24-5.12 5.52.4.35.76 1.03.76 2.08 0 1.5-.01 2.71-.01 3.08 0 .3.2.65.77.54A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z" />
+              </svg>
+            </a>
+
+            {/* LinkedIn */}
+            <a
+              href="https://www.linkedin.com/in/muhamad-abidin-845098315" target="_blank"
+              rel="noopener noreferrer"
+              className="footer-icon cursor-target"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+            >
+<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm6.5 0h3.83v1.64h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.14V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4V9Z" />
+              </svg>
+            </a>
+
+            {/* Instagram */}
+            <a
+              href="https://instagram.com/abdnn26" target="_blank"
+              rel="noopener noreferrer"
+              className="footer-icon cursor-target"
+              aria-label="Instagram"
+              title="Instagram"
+            >
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+          </div>
+
+          <p className="footer-location">{CONTACT.location}</p>
         </div>
       </div>
 

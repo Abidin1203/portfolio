@@ -6888,3 +6888,59 @@ html {
     align-self: flex-start;
   }
 }
+
+
+/* Footer: kontak berbentuk ikon */
+.footer-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-grad);
+  color: var(--muted);
+  transition: transform 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.footer-icon:hover {
+  transform: translateY(-3px);
+  color: var(--accent-soft);
+  border-color: var(--accent);
+  box-shadow: 0 10px 24px rgba(139, 92, 246, 0.25);
+}
+
+.footer-location {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .footer-icons {
+    gap: 8px;
+  }
+
+  .footer-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .footer-location {
+    margin-top: 10px;
+    font-size: 10px;
+  }
+}
