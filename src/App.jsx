@@ -3004,29 +3004,6 @@ function App() {
           </div>
         </div>
 
-        {/* Tautan cepat untuk rekruter */}
-        <div className="contact-quick">
-          <a href="/cv.pdf" download className="contact-quick__link contact-quick__link--primary cursor-target">
-            Download CV
-          </a>
-          <a
-            href="https://www.linkedin.com/in/muhamad-abidin-845098315"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contact-quick__link cursor-target"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/Abidin1203"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contact-quick__link cursor-target"
-          >
-            GitHub
-          </a>
-        </div>
-
         {/* Card besar: form kirim pesan */}
         <div className="contact-form-card">
           <div className="contact-form-info">
