@@ -2710,7 +2710,7 @@ html {
 
 .site-footer__main {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 1.3fr;
+  grid-template-columns: 1.3fr 1.1fr 1.2fr;
   gap: 40px 48px;
   align-items: start;
   padding-top: 56px;
@@ -2773,6 +2773,14 @@ html {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.site-footer__nav ul {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(2, max-content);
+  gap: 12px 44px;
 }
 
 .site-footer__col a,
@@ -5531,6 +5539,13 @@ html {
   }
 
   .site-footer__col ul {
+    gap: 6px;
+  }
+
+  .site-footer__nav ul {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    grid-template-columns: 1fr;
     gap: 6px;
   }
 

@@ -1810,14 +1810,12 @@ function Footer({ theme }) {
   const socials = SOCIALS.filter((s) => !s.href.includes('USERNAME'))
 
   const navLinks = [
-    { href: '#home', label: 'Home' },
     { href: '#about', label: 'About' },
     { href: '#education', label: 'Education' },
     { href: '#experience', label: 'Experience' },
     { href: '#skills', label: 'Skills' },
     { href: '#projects', label: 'Projects' },
     { href: '#certifications', label: 'Certificates' },
-    { href: '#contact', label: 'Contact' },
   ]
 
   return (
@@ -1841,7 +1839,7 @@ function Footer({ theme }) {
           </p>
         </div>
 
-        <nav className="site-footer__col" aria-label="Navigasi footer">
+        <nav className="site-footer__col site-footer__nav" aria-label="Navigasi footer">
           <h4 className="site-footer__heading">Navigasi</h4>
           <ul>
             {navLinks.map((l) => (
