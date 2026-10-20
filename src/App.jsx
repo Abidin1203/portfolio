@@ -1,5 +1,5 @@
 import './App.css'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Rotating from './components/Rotating'
 import StrokeText from './components/StrokeText'
@@ -917,317 +917,6 @@ function FloatingLaptop() {
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-// ---------------------------------------------------------------------
-// ExperienceFlow — pesawat 3D terbang di atas section Experience.
-// Pesawat (HTML + CSS 3D, tanpa canvas/WebGL/library) terbang otomatis
-// menyusuri jalur putus-putus. Begitu melewati sebuah titik, dari situ
-// keluar panah yang berbelok ke kartu terkait (kartunya ikut menyala).
-// Setelah sampai ujung, jeda sebentar lalu terbang lagi dari awal.
-// Laptop: jalur melengkung di atas deretan kartu.
-// HP: jalur lurus di sisi kiri kartu yang menumpuk.
-// Posisi dihitung dari kartu sebenarnya (ResizeObserver). Animasi hanya jalan
-// saat terlihat di layar (.is-live) dan langsung tampil statis kalau
-// perangkat memakai "kurangi gerakan".
-// ---------------------------------------------------------------------
-const FLIGHT_MS = 8500 // lama satu kali terbang
-const HOLD_MS = 3200 // jeda di ujung sebelum mengulang
-
-function ExperienceFlow({ children }) {
-  const wrapRef = useRef(null)
-  const trunkRef = useRef(null)
-  const progRef = useRef(null)
-  const planeRef = useRef(null)
-  const branchRefs = useRef([])
-  const metaRef = useRef({ total: 0, fracs: [], cards: [], scale: 1 })
-  const pRef = useRef(0)
-  const reduceRef = useRef(false)
-  const [geo, setGeo] = useState(null)
-
-  // Pasang posisi pesawat, jalur yang sudah dilewati, panah, dan sorotan kartu
-  // untuk progres p (0 → 1).
-  const apply = useCallback((p) => {
-    const trunk = trunkRef.current
-    const meta = metaRef.current
-    if (!trunk || !meta.total) return
-
-    const len = p * meta.total
-    const at = trunk.getPointAtLength(len)
-    const before = trunk.getPointAtLength(Math.max(0, len - 1))
-    const after = trunk.getPointAtLength(Math.min(meta.total, len + 1))
-    const angle = (Math.atan2(after.y - before.y, after.x - before.x) * 180) / Math.PI
-
-    const plane = planeRef.current
-    if (plane) {
-      plane.style.transform = `translate3d(${at.x.toFixed(1)}px, ${at.y.toFixed(1)}px, 0) rotate(${angle.toFixed(1)}deg) scale(${meta.scale})`
-      // Muncul pelan di awal, memudar di ujung (kecuali "kurangi gerakan")
-      const o = reduceRef.current ? 1 : Math.min(1, p / 0.03, (1 - p) / 0.03)
-      plane.style.opacity = String(Math.max(0, o))
-    }
-    if (progRef.current) progRef.current.style.strokeDashoffset = String(1 - p)
-
-    meta.fracs.forEach((f, i) => {
-      const hit = p >= f
-      const g = branchRefs.current[i]
-      if (g) g.classList.toggle('is-hit', hit)
-      const card = meta.cards[i]
-      if (card) card.classList.toggle('is-reached', hit)
-    })
-  }, [])
-
-  // 1) Ukur posisi kartu → susun jalur utama + cabang panah per kartu
-  useEffect(() => {
-    const wrap = wrapRef.current
-    if (!wrap) return undefined
-
-    const measure = () => {
-      const items = Array.from(wrap.querySelectorAll('.experience-item'))
-      if (items.length === 0) return
-
-      const w = wrap.clientWidth
-      const h = wrap.clientHeight
-      const wide = window.matchMedia('(min-width: 901px)').matches
-
-      // offsetLeft/offsetTop tidak terpengaruh animasi reveal (translate)
-      const cards = items.map((el) => ({
-        el: el.querySelector('.experience-card--list') || el,
-        x: el.offsetLeft + el.offsetWidth / 2,
-        left: el.offsetLeft,
-        top: el.offsetTop,
-        h: el.offsetHeight,
-      }))
-
-      let trunk = ''
-      let nodes = []
-      let branches = []
-
-      if (wide) {
-        // Laptop: jalur bergelombang di atas kartu, cabang turun & berbelok ke tiap kartu
-        const hubY = Math.max(20, cards[0].top - 46)
-        nodes = cards.map((c) => ({ x: c.x - 72, y: hubY }))
-
-        const n0 = nodes[0]
-        const sx = Math.max(4, n0.x - 150)
-        const mid = (n0.x - sx) * 0.5
-        trunk = `M ${sx} 4 C ${sx + mid} 4, ${n0.x - mid} ${hubY}, ${n0.x} ${hubY}`
-
-        for (let i = 1; i < nodes.length; i++) {
-          const a = nodes[i - 1]
-          const b = nodes[i]
-          const dx = b.x - a.x
-          const s = i % 2 ? -1 : 1
-          trunk += ` C ${a.x + dx * 0.4} ${hubY + s * 22}, ${b.x - dx * 0.4} ${hubY - s * 22}, ${b.x} ${hubY}`
-        }
-
-        const last = nodes[nodes.length - 1]
-        const ex = Math.min(w - 6, last.x + 190)
-        trunk += ` C ${last.x + 60} ${hubY + 20}, ${ex - 50} ${hubY - 4}, ${ex} ${Math.max(2, hubY - 30)}`
-
-        branches = cards.map((c, i) => {
-          const r = 24
-          const tipY = c.top - 8
-          return {
-            line: `M ${nodes[i].x} ${hubY} H ${c.x - r} Q ${c.x} ${hubY} ${c.x} ${hubY + r} V ${tipY}`,
-            head: `M ${c.x - 6} ${tipY - 8} L ${c.x} ${tipY} L ${c.x + 6} ${tipY - 8}`,
-          }
-        })
-      } else {
-        // HP: jalur lurus di kiri, cabang berbelok ke kanan masuk ke sisi kiri kartu
-        const gx = 9
-        const r = 12
-        nodes = cards.map((c) => {
-          const ay = c.top + Math.min(56, c.h / 2)
-          return { x: gx, y: Math.max(8, ay - 72), ay, left: c.left }
-        })
-        trunk = `M ${gx} 2 V ${nodes[nodes.length - 1].ay + 36}`
-
-        branches = nodes.map((n) => {
-          const tipX = n.left - 3
-          return {
-            line: `M ${gx} ${n.y} V ${n.ay - r} Q ${gx} ${n.ay} ${gx + r} ${n.ay} H ${tipX}`,
-            head: `M ${tipX - 8} ${n.ay - 6} L ${tipX} ${n.ay} L ${tipX - 8} ${n.ay + 6}`,
-          }
-        })
-      }
-
-      setGeo({ w, h, wide, trunk, nodes, branches, cards: cards.map((c) => c.el) })
-    }
-
-    measure()
-    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null
-    if (ro) ro.observe(wrap)
-    else window.addEventListener('resize', measure)
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure)
-
-    return () => {
-      if (ro) ro.disconnect()
-      else window.removeEventListener('resize', measure)
-    }
-  }, [])
-
-  // 2) Setelah jalur tergambar: hitung di titik mana tiap cabang keluar
-  useEffect(() => {
-    const trunk = trunkRef.current
-    if (!geo || !trunk) return
-
-    const total = trunk.getTotalLength()
-    const N = 480
-    const samples = []
-    for (let i = 0; i <= N; i++) {
-      const l = (total * i) / N
-      const pt = trunk.getPointAtLength(l)
-      samples.push({ l, x: pt.x, y: pt.y })
-    }
-
-    const fracs = geo.nodes.map((n) => {
-      let best = 0
-      let bestD = Infinity
-      samples.forEach((s) => {
-        const d = (s.x - n.x) ** 2 + (s.y - n.y) ** 2
-        if (d < bestD) {
-          bestD = d
-          best = s.l
-        }
-      })
-      return total > 0 ? best / total : 0
-    })
-
-    // Pesawat lebih kecil di HP supaya muat di sisi kiri kartu
-    metaRef.current = { total, fracs, cards: geo.cards, scale: geo.wide ? 0.62 : 0.42 }
-    branchRefs.current.length = geo.branches.length
-    apply(pRef.current)
-  }, [geo, apply])
-
-  // 3) Terbang otomatis berulang — hanya saat section terlihat di layar
-  useEffect(() => {
-    const wrap = wrapRef.current
-    if (!wrap) return undefined
-
-    reduceRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduceRef.current) {
-      // Tanpa gerakan: tampilkan jalur lengkap dan pesawat di ujung jalur
-      pRef.current = 1
-      apply(1)
-      return undefined
-    }
-
-    let raf = 0
-    let t0 = 0
-    let running = false
-
-    const tick = (now) => {
-      if (!t0) t0 = now
-      const e = (now - t0) % (FLIGHT_MS + HOLD_MS)
-      const raw = Math.min(1, e / FLIGHT_MS)
-      const p = 0.5 - Math.cos(Math.PI * raw) / 2 // pelan di awal & akhir
-      pRef.current = p
-      apply(p)
-      raf = requestAnimationFrame(tick)
-    }
-    const start = () => {
-      if (running) return
-      running = true
-      t0 = 0
-      wrap.classList.add('is-live')
-      raf = requestAnimationFrame(tick)
-    }
-    const stop = () => {
-      running = false
-      cancelAnimationFrame(raf)
-      wrap.classList.remove('is-live')
-    }
-
-    let io = null
-    if ('IntersectionObserver' in window) {
-      io = new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop()), {
-        threshold: 0.1,
-      })
-      io.observe(wrap)
-    } else {
-      start()
-    }
-
-    return () => {
-      if (io) io.disconnect()
-      stop()
-    }
-  }, [apply])
-
-  return (
-    <div className="exp-flow" ref={wrapRef}>
-      {geo && (
-        <svg
-          className="exp-flow__svg"
-          width={geo.w}
-          height={geo.h}
-          viewBox={`0 0 ${geo.w} ${geo.h}`}
-          aria-hidden="true"
-          focusable="false"
-        >
-          {/* Jalur utama: putus-putus; garis solid menyusul sampai posisi pesawat */}
-          <path ref={trunkRef} className="exp-flow__trunk" d={geo.trunk} />
-          <path ref={progRef} className="exp-flow__prog" d={geo.trunk} pathLength="1" />
-
-          {/* Panah berbelok menuju tiap kartu */}
-          {geo.branches.map((b, i) => (
-            <g
-              key={i}
-              ref={(el) => {
-                branchRefs.current[i] = el
-              }}
-              className="exp-flow__branch"
-            >
-              <path className="exp-flow__line" d={b.line} pathLength="1" />
-              <path className="exp-flow__head" d={b.head} />
-            </g>
-          ))}
-        </svg>
-      )}
-
-      {/* Pesawat 3D (menghadap kanan; diputar mengikuti arah jalur lewat JS) */}
-      <div className="exp-plane" ref={planeRef} aria-hidden="true">
-        <div className="xp-persp">
-          <div className="xp-roll">
-            <span className="xp-shadow" />
-            <span className="xp-trail" />
-
-            <span className="xp-w xp-w--a">
-              <i className="xp-w__under" />
-              <i className="xp-w__top" />
-            </span>
-            <span className="xp-w xp-w--b">
-              <i className="xp-w__under" />
-              <i className="xp-w__top" />
-            </span>
-
-            <span className="xp-s xp-s--a">
-              <i className="xp-s__under" />
-              <i className="xp-s__top" />
-            </span>
-            <span className="xp-s xp-s--b">
-              <i className="xp-s__under" />
-              <i className="xp-s__top" />
-            </span>
-
-            <span className="xp-eng xp-eng--a" />
-            <span className="xp-eng xp-eng--b" />
-
-            <span className="xp-body">
-              <i className="xp-windows" />
-            </span>
-            <span className="xp-fin" />
-            <span className="xp-cockpit" />
-
-            <i className="xp-light xp-light--a" />
-            <i className="xp-light xp-light--b" />
-          </div>
-        </div>
-      </div>
-
-      {children}
     </div>
   )
 }
@@ -2867,6 +2556,11 @@ function App() {
             handle="abdnn26"
             status="Online"
             contactText="Contact Me"
+            onContactClick={() => {
+              document
+                .getElementById('contact')
+                ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }}
             avatarUrl="/about/profile.jpeg"
             holo={0}
             glare={0}
@@ -3119,7 +2813,6 @@ function App() {
 
         {/* Kartu tersusun ke bawah, scroll halaman biasa (laptop & HP sama).
             Tiap kartu muncul pelan (fade + naik) saat masuk layar. */}
-        <ExperienceFlow>
         <div className="experience-list-cards">
           {experienceItems.map((item, i) => (
             <div
@@ -3136,7 +2829,6 @@ function App() {
             </div>
           ))}
         </div>
-        </ExperienceFlow>
 
         {selectedExperience && (
           <ExperienceDetail
