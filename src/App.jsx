@@ -1835,7 +1835,7 @@ function Footer({ theme }) {
           <p className="site-footer__role">{CONTACT.role}</p>
           <p className="site-footer__status">
             <span className="site-footer__dot" aria-hidden="true" />
-            Tersedia untuk pekerjaan &amp; magang
+            Open to New Opportunities
           </p>
         </div>
 
