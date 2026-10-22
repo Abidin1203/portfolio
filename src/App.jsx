@@ -144,7 +144,7 @@ const skillGroups = [
   {
     id: 'frontend',
     title: 'Front-end',
-    tag: 'Fokus utama',
+    tag: 'Antarmuka Web',
     desc: 'Membangun tampilan web yang rapi dan responsif.',
     icon: (
       <>
@@ -163,7 +163,7 @@ const skillGroups = [
   {
     id: 'backend',
     title: 'Back-end',
-    tag: 'Sedang dieksplor',
+    tag: 'Server & Database',
     desc: 'Mengelola logika server dan database.',
     icon: (
       <>
@@ -221,6 +221,50 @@ const skillGroups = [
     ],
   },
 ];
+
+// Kartu "Hard Skill & Soft Skill" (kolom tambahan di section Skills).
+// Tinggal tambah/hapus teks di array items untuk mengubah isinya.
+const abilityColumns = [
+  {
+    id: 'hard',
+    title: 'Hard Skill',
+    items: [
+      'Pengembangan Web — React, PHP, Laravel',
+      'Perancangan Sistem Informasi — UML, DFD',
+      'Pengelolaan Basis Data — MySQL, MongoDB',
+      'Pengolahan Data — Data Cleaning & EDA',
+      'Visualisasi Data — Tableau, Excel',
+      'Machine Learning Dasar',
+    ],
+  },
+  {
+    id: 'soft',
+    title: 'Soft Skill',
+    items: [
+      'Kerja Sama Tim',
+      'Komunikasi',
+      'Kepemimpinan dan Koordinasi',
+      'Pemecahan Masalah',
+      'Manajemen Waktu',
+      'Adaptasi dan Kemauan Belajar',
+    ],
+  },
+];
+
+// Tab kategori di section Skills. Semua kategori setara; "Semua" tampil dulu.
+// skillTabOf menentukan tiap kartu masuk ke tab yang mana.
+const skillTabs = [
+  { id: 'all', label: 'Semua' },
+  { id: 'ability', label: 'Hard & Soft Skill' },
+  { id: 'data', label: 'Data & Analytics' },
+  { id: 'web', label: 'Web' },
+  { id: 'tools', label: 'Tools' },
+];
+const skillTabOf = { data: 'data', frontend: 'web', backend: 'web', tools: 'tools' };
+// Urutan kartu di tab "Semua" (Hard & Soft Skill selalu paling atas)
+const skillOrder = ['data', 'frontend', 'backend', 'tools']
+  .map((id) => skillGroups.find((g) => g.id === id))
+  .filter(Boolean);
 
 // Total tools di semua kartu Skills (dipakai untuk angka ringkasan)
 const totalTools = skillGroups.reduce((n, g) => n + g.items.length, 0);
@@ -363,6 +407,7 @@ const experienceItems = [
 // - image : (opsional) foto/screenshot project di kartu, mis. '/projects/pos.jpg'.
 //           Kalau kosong, tampil kotak placeholder "PROJECT 0X".
 // - detail.images : (opsional) beberapa foto untuk jendela Details.
+// - impact : (opsional) satu kalimat manfaat project, tampil di slider.
 const projectItems = [
   {
     number: '01',
@@ -370,6 +415,8 @@ const projectItems = [
     summary:
       'Website sistem informasi penjualan untuk UMKM kuliner yang dikembangkan sebagai Tugas Akhir S1. Pelanggan memesan sendiri lewat QR Code di meja, sementara admin dan owner mengelola menu, pesanan, dan laporan penjualan secara terpusat.',
     tech: ['PHP', 'MySQL', 'JavaScript', 'HTML', 'CSS', 'AdminLTE'],
+    impact:
+      'Pencatatan pesanan dan rekap penjualan berjalan otomatis, menggantikan nota kertas dan hitungan manual.',
     image: '/projects/user.png',
     detail: {
       src: '/projects/user.png',
@@ -433,6 +480,8 @@ const projectItems = [
     summary:
       'Sistem Point of Sale (POS) berbasis web yang dirancang untuk membantu proses transaksi penjualan dan pengelolaan operasional restoran Nasi Goreng Kongres. Menyediakan fitur kasir untuk mengelola pesanan dan pembayaran, serta halaman admin untuk mengelola menu, data transaksi, dan laporan penjualan secara terintegrasi.',
     tech: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript'],
+    impact:
+      'Transaksi, data penjualan, dan laporan tercatat dalam satu sistem sehingga lebih rapi dan mudah dipantau.',
     image: '/projects/login.png',
     detail: {
       src: '/projects/login.png',
@@ -489,6 +538,8 @@ const projectItems = [
     summary:
       'Prototype website restoran untuk simulasi pemesanan makanan dan reservasi meja secara online. Pelanggan dapat melihat menu, memakai keranjang belanja, dan memilih tipe meja (Standard, VIP, Private Room, Outdoor). Frontend dibangun dengan Vue.js, backend dengan Node.js (Express.js), dan data disimpan di MongoDB.',
     tech: ['Vue.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
+    impact:
+      'Alur pemesanan makanan dan reservasi meja dapat disimulasikan secara online dalam satu tampilan.',
     image: '/projects/restoran-beranda.png',
     detail: {
       src: '/projects/restoran-beranda.png',
@@ -565,6 +616,8 @@ const projectItems = [
     summary:
       'Studi kasus machine learning untuk mengklasifikasikan tumor jinak (benign) dan ganas (malignant) memakai Support Vector Machine pada Wisconsin Breast Cancer Dataset. Model mencapai akurasi 96,5%.',
     tech: ['Python', 'scikit-learn', 'Pandas', 'Google Colab'],
+    impact:
+      'Memperlihatkan alur analisis data dari pengolahan hingga evaluasi model, dengan akurasi 96,5%.',
     image: '/projects/svm-pipeline.png',
     detail: {
       src: '/projects/svm-pipeline.png',
@@ -618,6 +671,8 @@ const projectItems = [
     summary:
       'Analisis daya tampung jalur mandiri dan variasi biaya UKT di PTN se-Indonesia tahun 2025, disajikan lewat dashboard interaktif Tableau. Dikerjakan secara tim.',
     tech: ['Tableau', 'Excel', 'Data Analysis'],
+    impact:
+      'Data daya tampung dan biaya UKT tersaji dalam dashboard interaktif sehingga perbandingan antar kampus lebih mudah dibaca.',
     image: '/projects/msib.png',
     detail: {
       image: '/projects/msib.png',
@@ -653,6 +708,8 @@ const projectItems = [
     summary:
       'Website portofolio pribadi untuk menampilkan profil, pendidikan, pengalaman, skill, project, dan sertifikat dalam satu halaman. Dibangun dengan React, mendukung tema gelap dan terang, serta nyaman dibuka di laptop maupun HP.',
     tech: ['React', 'Vite', 'JavaScript', 'CSS'],
+    impact:
+      'Profil, pengalaman, dan sertifikat terkumpul dalam satu halaman yang nyaman dibuka di laptop maupun HP.',
     image: '/projects/user1.png',
     detail: {
       badge: 'Project 06',
@@ -684,11 +741,9 @@ const projectItems = [
   },
 ];
 
-// Section Projects: FEATURED_COUNT project pertama tampil di grid bento
-// (maksimal 4 kartu), sisanya masuk ke bagian "Project Lainnya".
-const FEATURED_COUNT = 4;
-const featuredProjects = projectItems.slice(0, FEATURED_COUNT);
-const otherProjects = projectItems.slice(FEATURED_COUNT);
+// Section Projects: semua project tampil sebagai slider (geser dengan panah < >,
+// titik penanda, swipe di HP, atau tombol panah keyboard).
+const SWIPE_THRESHOLD = 50; // jarak swipe (px) minimal untuk pindah slide
 
 // ---------------------------------------------------------------------
 // HoloSphere — bola hologram 3D untuk latar section Education.
@@ -1552,7 +1607,7 @@ const WEB3FORMS_KEY = (import.meta.env && import.meta.env.VITE_WEB3FORMS_KEY) ||
 
 const CONTACT = {
   name: "Muhamad A'biddin",
-  role: 'Informatics Graduate · Web Developer',
+  role: 'Lulusan Informatika · Data & Sistem Informasi',
   email: 'muhabiddin80354@gmail.com',
   phone: '+62 856-9732-1736',
   whatsapp: 'https://wa.me/6285697321736',
@@ -1810,12 +1865,12 @@ function Footer({ theme }) {
   const socials = SOCIALS.filter((s) => !s.href.includes('USERNAME'))
 
   const navLinks = [
-    { href: '#about', label: 'About' },
-    { href: '#education', label: 'Education' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#certifications', label: 'Certificates' },
+    { href: '#about', label: 'Tentang' },
+    { href: '#education', label: 'Pendidikan' },
+    { href: '#experience', label: 'Pengalaman' },
+    { href: '#skills', label: 'Keahlian' },
+    { href: '#projects', label: 'Proyek' },
+    { href: '#certifications', label: 'Sertifikat' },
   ]
 
   return (
@@ -1835,7 +1890,7 @@ function Footer({ theme }) {
           <p className="site-footer__role">{CONTACT.role}</p>
           <p className="site-footer__status">
             <span className="site-footer__dot" aria-hidden="true" />
-            Open to New Opportunities
+            Terbuka untuk Peluang Baru
           </p>
         </div>
 
@@ -1991,13 +2046,23 @@ function App() {
   const [openEdu, setOpenEdu] = useState(null);
   // Foto yang sedang diperbesar di blok utama Education (null = tidak ada)
   const [eduPreview, setEduPreview] = useState(null);
-  // Kartu project yang sedang disorot di grid bento (awal: yang pertama)
-  const [activeProject, setActiveProject] = useState(0);
-  // Di layar sentuh: ketukan pertama hanya menyorot kartu, ketukan kedua membuka detail.
-  // Nilai: null (bukan sentuhan) | true (kartu sudah aktif saat disentuh) | false (belum).
-  const projectTouchWasActive = useRef(null);
-  // Daftar "Project Lainnya": tertutup dulu, terbuka saat tombolnya diklik
-  const [showMoreProjects, setShowMoreProjects] = useState(false);
+  // Slide project yang sedang tampil di slider (awal: yang pertama)
+  const [projectSlide, setProjectSlide] = useState(0);
+  // Posisi sentuhan awal (untuk swipe kiri/kanan di slider project)
+  const projectTouchX = useRef(null);
+  // Tab kategori di section Skills (awal: Semua)
+  const [skillTab, setSkillTab] = useState('all');
+  const showSkillCard = (tab) => skillTab === 'all' || skillTab === tab;
+  const visibleSkillGroups = skillOrder.filter((g) => showSkillCard(skillTabOf[g.id]));
+  // Jumlah kolom kartu biasa (Tools & Hard/Soft Skill selalu selebar penuh)
+  const skillCols = Math.min(
+    3,
+    Math.max(1, visibleSkillGroups.filter((g) => g.id !== 'tools').length)
+  );
+  const totalProjectSlides = projectItems.length;
+  // Pindah ke slide tertentu; kalau lewat ujung, muter ke sisi sebaliknya
+  const goProjectSlide = (i) =>
+    setProjectSlide(((i % totalProjectSlides) + totalProjectSlides) % totalProjectSlides);
   const [isNavScrolled, setIsNavScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -2054,18 +2119,18 @@ function App() {
     const message = contactForm.message.trim();
 
     if (!name || !email || !message) {
-      showContactError('Please fill in your name, email, and message.');
+      showContactError('Mohon isi nama, email, dan pesan Anda.');
       return;
     }
     if (message.length < 10) {
-      showContactError('Your message is a bit short. Please write at least 10 characters.');
+      showContactError('Pesan terlalu singkat. Mohon tulis minimal 10 karakter.');
       return;
     }
 
     // Tanpa access key: buka aplikasi email bawaan dengan pesan yang sudah terisi.
     if (!WEB3FORMS_KEY) {
-      const subject = encodeURIComponent(`Portfolio message from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      const subject = encodeURIComponent(`Pesan portofolio dari ${name}`);
+      const body = encodeURIComponent(`Nama: ${name}\nEmail: ${email}\n\n${message}`);
       window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
       setContactStatus('opened');
       resetContactStatus(8000);
@@ -2086,7 +2151,7 @@ function App() {
         signal: controller.signal,
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `New portfolio message from ${name}`,
+          subject: `Pesan portofolio baru dari ${name}`,
           from_name: 'Portfolio Contact Form',
           name,
           email,
@@ -2111,8 +2176,8 @@ function App() {
       console.error('Contact form error:', err);
       showContactError(
         err.name === 'AbortError'
-          ? 'The request took too long. Please check your connection and try again.'
-          : `Your message could not be sent. Please try again, or email me directly at ${CONTACT.email}.`
+          ? 'Permintaan terlalu lama. Periksa koneksi internet Anda lalu coba lagi.'
+          : `Pesan belum bisa terkirim. Silakan coba lagi, atau kirim email langsung ke ${CONTACT.email}.`
       );
     } finally {
       window.clearTimeout(abortTimer);
@@ -2120,14 +2185,14 @@ function App() {
   };
 
   const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#education', label: 'Education' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#certifications', label: 'Certificates' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#home', label: 'Beranda' },
+    { href: '#about', label: 'Tentang' },
+    { href: '#education', label: 'Pendidikan' },
+    { href: '#experience', label: 'Pengalaman' },
+    { href: '#skills', label: 'Keahlian' },
+    { href: '#projects', label: 'Proyek' },
+    { href: '#certifications', label: 'Sertifikat' },
+    { href: '#contact', label: 'Kontak' },
   ];
 
   // Kunci scroll body saat menu mobile terbuka, biar halaman di
@@ -2439,7 +2504,7 @@ function App() {
           }}
         >
           <p className="hero-greeting">
-            HELLO, I'M
+            HALO, SAYA
           </p>
 
           <h1 className="hero-stroke-title">
@@ -2459,9 +2524,9 @@ function App() {
           </h1>
 
           <h2>
-            Informatics Graduate &amp;{' '}
+            Lulusan Informatika &amp;{' '}
             <Rotating
-              texts={['Web Developer', 'Information Systems Developer', 'Data Enthusiast']}
+              texts={['Pengolahan Data', 'Sistem Informasi', 'Pengembangan Web']}
               mainClassName="hero-rotating-text"
               rotationInterval={2200}
               staggerDuration={0.02}
@@ -2470,8 +2535,8 @@ function App() {
           </h2>
 
           <p className="hero-description">
-            I build web-based information systems, from the interface to the
-            database, and turn data into reports that help businesses run better.
+            Saya mengolah data dan membangun sistem informasi untuk membantu
+            pekerjaan menjadi lebih rapi, efisien, dan mudah dipantau.
           </p>
 
           <div className="hero-buttons">
@@ -2479,14 +2544,14 @@ function App() {
               href="#projects"
               className="primary-button cursor-target"
             >
-              View My Projects
+              Lihat Proyek
             </a>
 
             <a
               href="#about"
               className="secondary-button cursor-target"
             >
-              More About Me
+              Tentang Saya
             </a>
 
             <a
@@ -2494,7 +2559,7 @@ function App() {
               download
               className="secondary-button cursor-target"
             >
-              Download CV
+              Unduh CV
             </a>
           </div>
 
@@ -2537,11 +2602,11 @@ function App() {
         className="section about"
       >
         <p className="section-label">
-          ABOUT ME
+          TENTANG SAYA
         </p>
 
         <h2>
-          Turning ideas into <span>digital experiences.</span>
+          Mengenal saya <span>lebih dekat.</span>
         </h2>
 
         <div className="about-grid">
@@ -2550,10 +2615,10 @@ function App() {
           <div className="about-photo-card about-photo-card--profile reveal reveal--left">
             <ProfileCard
             name="Muhamad A'biddin"
-            title="Web Developer"
+            title="Lulusan Informatika"
             handle="abdnn26"
-            status="Online"
-            contactText="Contact Me"
+            status="Tersedia"
+            contactText="Hubungi Saya"
             onContactClick={() => {
               document
                 .getElementById('contact')
@@ -2578,35 +2643,33 @@ function App() {
             <p className="about-text about-text--lead reveal" style={{ '--reveal-delay': '0.1s' }}>
               Saya <strong>Muhamad A’biddin</strong>, lulusan{' '}
               <strong>S1 Informatika</strong> Universitas Sahid Surakarta
-              (2022–2026) yang memiliki ketertarikan pada pengembangan{' '}
-              <strong>sistem informasi berbasis web</strong> dan{' '}
-              <strong>pengolahan data</strong>.
+              (2022–2026). Selama kuliah, saya mendapatkan pengalaman dalam
+              mengerjakan proyek, mengolah data, dan mengikuti kegiatan
+              organisasi yang membantu saya mengembangkan kemampuan serta cara
+              bekerja.
             </p>
 
             <p className="about-text reveal" style={{ '--reveal-delay': '0.2s' }}>
-              Saya berfokus pada pengembangan solusi digital yang dapat membantu
-              aktivitas operasional menjadi lebih terstruktur, efisien, dan mudah
-              digunakan. Salah satu proyek yang saya kembangkan adalah{' '}
-              <strong>POS Kasir Nasi Goreng Kongres</strong>, sistem kasir berbasis
-              web yang dirancang untuk mendukung proses transaksi dan pengelolaan
-              data penjualan.
+              Saya terbiasa mempelajari hal baru, bekerja sama dalam tim, dan
+              berusaha menyelesaikan tanggung jawab dengan baik. Pengalaman
+              mengikuti program <strong>MSIB</strong> di bidang{' '}
+              <strong>Data Science</strong> dan kegiatan organisasi{' '}
+              <strong>HIMAIF</strong> juga memberikan saya kesempatan untuk
+              belajar berkomunikasi, mengelola pekerjaan, dan beradaptasi dengan
+              lingkungan yang berbeda.
             </p>
 
             <p className="about-text reveal" style={{ '--reveal-delay': '0.3s' }}>
-              Selain pengembangan web, saya memperoleh pengalaman belajar di bidang{' '}
-              <strong>Data Science</strong> melalui program <strong>MSIB</strong>.
-              Pengalaman berorganisasi di <strong>HIMAIF</strong> juga membantu saya
-              mengembangkan kemampuan komunikasi, kerja sama tim, dan tanggung jawab.
+              Saat ini, saya ingin mengembangkan kemampuan dan mendapatkan
+              pengalaman di dunia kerja. Saya terbuka terhadap berbagai
+              kesempatan karier, baik yang berkaitan dengan bidang{' '}
+              <strong>teknologi informasi</strong> maupun bidang lain yang sesuai
+              dengan kemampuan saya. Saya siap belajar, beradaptasi, dan
+              memberikan kontribusi terbaik dalam setiap tanggung jawab yang
+              diberikan.
             </p>
 
-            <p className="about-text reveal" style={{ '--reveal-delay': '0.4s' }}>
-              Saya senantiasa terbuka untuk mempelajari hal baru, mengembangkan
-              kemampuan, dan berkontribusi dalam proyek di bidang{' '}
-              <strong>pengembangan web</strong> maupun{' '}
-              <strong>pengelolaan data</strong>.
-            </p>
-
-            <div className="about-journey reveal" style={{ '--reveal-delay': '0.5s' }}>
+            <div className="about-journey reveal" style={{ '--reveal-delay': '0.4s' }}>
               <div className="about-journey__lead">
                 <span className="about-journey__num">
                   <CountUp to={4} duration={1000} />
@@ -2651,11 +2714,11 @@ function App() {
         <HoloSphere />
 
         <p className="section-label">
-          EDUCATION
+          PENDIDIKAN
         </p>
 
         <h2>
-          My academic journey.
+          Perjalanan akademik saya.
         </h2>
 
         {eduPreview && <PhotoLightbox photo={eduPreview} onClose={() => setEduPreview(null)} />}
@@ -2802,11 +2865,11 @@ function App() {
         className="section experience"
       >
         <p className="section-label">
-          EXPERIENCE & ORGANIZATION
+          PENGALAMAN & ORGANISASI
         </p>
 
         <h2>
-          Beyond the classroom.
+          Belajar di luar kelas.
         </h2>
 
         {/* Kartu tersusun ke bawah, scroll halaman biasa (laptop & HP sama).
@@ -2842,17 +2905,19 @@ function App() {
         className="section"
       >
         <p className="section-label">
-          MY TOOLKIT
+          KEAHLIAN SAYA
         </p>
 
         <h2>
-          Skills &amp; <span>Tools</span>
+          Keahlian &amp; <span>Tools</span>
         </h2>
 
         <p className="skills-lead reveal">
-          Berbagai tools dan teknologi yang saya gunakan untuk membangun
-          antarmuka web, mengelola database, serta mengolah data menjadi
-          informasi visual yang mudah dipahami.
+          Kemampuan teknis dan tools yang saya gunakan untuk mengembangkan
+          sistem berbasis web, mengolah data menjadi informasi yang mudah
+          dipahami, serta mendukung penyelesaian pekerjaan secara efektif.
+          Kemampuan ini juga dilengkapi dengan kerja sama tim, komunikasi, dan
+          kemauan untuk terus belajar.
         </p>
 
         <div className="skills-meta reveal" style={{ '--reveal-delay': '0.1s' }}>
@@ -2864,41 +2929,108 @@ function App() {
           </span>
         </div>
 
-        <div className="skills-cards">
-          {skillGroups.map((group, i) => (
-            <div
-              key={group.id}
-              className={`skill-group skill-group--${group.id} reveal`}
-              style={{ '--reveal-delay': `${i * 0.1}s` }}
-              onMouseMove={handleSkillMove}
-            >
-              <div className="skill-group-head">
-                <span className="skill-group-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {group.icon}
-                  </svg>
-                </span>
-                <div className="skill-group-heading">
-                  <div className="skill-group-title-row">
-                    <h3>{group.title}</h3>
-                    <span className="skill-group-tag">{group.tag}</span>
+        {/* Tab kategori + kartu. Tab "Semua" tampil dulu supaya semua bidang setara. */}
+        <div className="skills-stage reveal" style={{ '--reveal-delay': '0.15s' }}>
+          <div className="skills-tabs" role="tablist" aria-label="Kategori skill">
+            {skillTabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                id={`skills-tab-${tab.id}`}
+                aria-selected={skillTab === tab.id}
+                aria-controls="skills-panel"
+                className={`skills-tab cursor-target${skillTab === tab.id ? ' is-active' : ''}`}
+                onClick={() => setSkillTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div
+            key={skillTab}
+            id="skills-panel"
+            role="tabpanel"
+            aria-labelledby={`skills-tab-${skillTab}`}
+            className="skills-cards"
+            data-cols={skillCols}
+            style={{ '--skills-cols': skillCols }}
+          >
+            {/* Hard Skill & Soft Skill (paling atas) */}
+            {showSkillCard('ability') && (
+              <div
+                className="skill-group skill-group--ability"
+                style={{ '--ci': 0 }}
+                onMouseMove={handleSkillMove}
+              >
+                <div className="skill-group-head">
+                  <span className="skill-group-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </span>
+                  <div className="skill-group-heading">
+                    <div className="skill-group-title-row">
+                      <h3>Hard Skill &amp; Soft Skill</h3>
+                      <span className="skill-group-tag">Kemampuan</span>
+                    </div>
+                    <p className="skill-group-desc">Kemampuan teknis dan kemampuan diri yang saya kembangkan melalui pendidikan, proyek, dan pengalaman berorganisasi.</p>
                   </div>
-                  <p className="skill-group-desc">{group.desc}</p>
+                </div>
+
+                <div className="skill-ability-cols">
+                  {abilityColumns.map((col) => (
+                    <div key={col.id} className={`skill-ability-col skill-ability-col--${col.id}`}>
+                      <h4 className="skill-ability-title">{col.title}</h4>
+                      <ul className="skill-ability-list">
+                        {col.items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
+            )}
 
-              <div className="skill-group-grid">
-                {group.items.map((tool, n) => (
-                  <div key={tool.alt} className="skills-tool-item" style={{ '--d': n }}>
-                    <span className="skills-tool-icon-wrap">
-                      <img src={tool.src} alt={tool.alt} title={tool.title} />
-                    </span>
-                    <span>{tool.title}</span>
+            {visibleSkillGroups.map((group, i) => (
+              <div
+                key={group.id}
+                className={`skill-group skill-group--${group.id}`}
+                style={{ '--ci': i + (showSkillCard('ability') ? 1 : 0) }}
+                onMouseMove={handleSkillMove}
+              >
+                <div className="skill-group-head">
+                  <span className="skill-group-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      {group.icon}
+                    </svg>
+                  </span>
+                  <div className="skill-group-heading">
+                    <div className="skill-group-title-row">
+                      <h3>{group.title}</h3>
+                      <span className="skill-group-tag">{group.tag}</span>
+                    </div>
+                    <p className="skill-group-desc">{group.desc}</p>
                   </div>
-                ))}
+                </div>
+
+                <div className="skill-group-grid">
+                  {group.items.map((tool, n) => (
+                    <div key={tool.alt} className="skills-tool-item" style={{ '--d': n }}>
+                      <span className="skills-tool-icon-wrap">
+                        <img src={tool.src} alt={tool.alt} title={tool.title} />
+                      </span>
+                      <span>{tool.title}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -2911,160 +3043,161 @@ function App() {
         <FloatingLaptop />
 
         <p className="section-label">
-          MY PROJECTS
+          PROYEK SAYA
         </p>
 
         <h2>
-          Some things I've built.
+          Proyek yang pernah saya kerjakan.
         </h2>
 
-        {/* Grid bento: kartu yang disorot tampil berwarna & lebar, sisanya
-            abu-abu. Arahkan kursor / fokus keyboard untuk memindahkan sorotan.
-            Di HP & layar sentuh kartu menumpuk dan info selalu terlihat. */}
+        {/* Slider project: satu project per slide. Geser dengan tombol < >, titik
+            penanda, swipe di HP, atau panah keyboard (saat slider difokus). */}
         <div
-          className="pj-bento reveal"
-          data-active={activeProject}
-          onMouseLeave={() => setActiveProject(0)}
+          className="pjc reveal"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Daftar project"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              goProjectSlide(projectSlide - 1);
+            } else if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              goProjectSlide(projectSlide + 1);
+            }
+          }}
         >
-          {featuredProjects.map((project, i) => {
-            const isActive = activeProject === i;
-            const open = () => project.detail && setSelectedExperience(project.detail);
-            return (
-              <div
-                key={project.number}
-                className={`pj-card pj-card--${i}${isActive ? ' is-active' : ''}${
-                  project.detail ? ' cursor-target' : ''
-                }`}
-                role={project.detail ? 'button' : undefined}
-                tabIndex={project.detail ? 0 : undefined}
-                aria-label={`${project.title}${project.detail ? ' — buka detail' : ''}`}
-                onMouseEnter={() => setActiveProject(i)}
-                onFocus={() => setActiveProject(i)}
-                onTouchStart={() => {
-                  projectTouchWasActive.current = activeProject === i;
-                }}
-                onClick={() => {
-                  const wasActive = projectTouchWasActive.current;
-                  projectTouchWasActive.current = null;
-                  if (
-                    wasActive === false &&
-                    !window.matchMedia('(max-width: 700px)').matches
-                  ) {
-                    setActiveProject(i);
-                    return;
-                  }
-                  open();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    open();
-                  }
-                }}
-              >
-                <span className="pj-card__fallback" aria-hidden="true">
-                  PROJECT {project.number}
-                </span>
-                {project.image && (
-                  <img
-                    className="pj-card__img"
-                    src={project.image}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    draggable="false"
-                    onError={hideBrokenImage}
-                  />
-                )}
-                <span className="pj-card__num" aria-hidden="true">{project.number}</span>
-                <span className="pj-card__shade" aria-hidden="true" />
-
-                <div className="pj-card__info">
-                  <h3>{project.title}</h3>
-                  <p>{project.summary}</p>
-                  <div className="pj-card__tech">
-                    {project.tech.slice(0, 3).map((tech) => (
-                      <span key={tech}>{tech}</span>
-                    ))}
-                  </div>
-                  {project.detail && (
-                    <span className="pj-card__cta">
-                      Lihat <span aria-hidden="true">↗</span>
-                    </span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Project lainnya: daftar ringkas untuk sisa project */}
-        {otherProjects.length > 0 && (
-          <div className={`pj-more${showMoreProjects ? ' is-open' : ''}`}>
-            <button
-              type="button"
-              className="pj-more__toggle cursor-target"
-              aria-expanded={showMoreProjects}
-              aria-controls="pj-more-panel"
-              onClick={() => setShowMoreProjects((open) => !open)}
+          <div
+            className="pjc-viewport"
+            onTouchStart={(e) => {
+              projectTouchX.current = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              if (projectTouchX.current === null) return;
+              const dx = e.changedTouches[0].clientX - projectTouchX.current;
+              projectTouchX.current = null;
+              if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+              goProjectSlide(projectSlide + (dx < 0 ? 1 : -1));
+            }}
+          >
+            <div
+              className="pjc-track"
+              style={{ '--pjc-index': projectSlide }}
             >
-              <span>{showMoreProjects ? 'Sembunyikan' : 'Project Lainnya'}</span>
-              <span className="pj-more__count">{otherProjects.length}</span>
-              <span className="pj-more__chev" aria-hidden="true" />
-            </button>
-
-            <div id="pj-more-panel" className="pj-more__panel">
-             <div className="pj-more__panel-inner">
-              <div className="pj-more__grid">
-              {otherProjects.map((project, i) => (
-                <article
-                  key={project.number}
-                  className="pj-more-card"
-                  style={{ '--i': i }}
-                >
-                  <div className="pj-more-card__media">
-                    <span className="pj-more-card__fallback" aria-hidden="true">
-                      PROJECT {project.number}
-                    </span>
-                    {project.image && (
-                      <img
-                        src={project.image}
-                        alt={`Tampilan ${project.title}`}
-                        loading="lazy"
-                        decoding="async"
-                        onError={hideBrokenImage}
-                      />
-                    )}
-                  </div>
-
-                  <div className="pj-more-card__body">
-                    <span className="pj-more-card__num">Project {project.number}</span>
-                    <h4>{project.title}</h4>
-                    <p>{project.summary}</p>
-
-                    <div className="pj-more-card__tech">
-                      {project.tech.map((tech) => (
-                        <span key={tech}>{tech}</span>
-                      ))}
-                    </div>
-
-                    {project.detail && (
-                      <button
-                        type="button"
-                        className="experience-details-btn cursor-target"
-                        onClick={() => setSelectedExperience(project.detail)}
+              {projectItems.map((project, i) => {
+                const isActive = projectSlide === i;
+                const open = () => project.detail && setSelectedExperience(project.detail);
+                return (
+                  <article
+                    key={project.number}
+                    className={`pjc-slide${isActive ? ' is-active' : ''}`}
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`${i + 1} dari ${totalProjectSlides}`}
+                    aria-hidden={!isActive}
+                  >
+                    <div className="pjc-card">
+                      <div
+                        className={`pjc-media${project.detail ? ' cursor-target' : ''}`}
+                        onClick={open}
                       >
-                        Details <span aria-hidden="true">→</span>
-                      </button>
-                    )}
-                  </div>
-                </article>
-              ))}
-              </div>
-             </div>
+                        <span className="pjc-media__fallback" aria-hidden="true">
+                          PROJECT {project.number}
+                        </span>
+                        {project.image && (
+                          <img
+                            src={project.image}
+                            alt={`Tampilan ${project.title}`}
+                            loading="lazy"
+                            decoding="async"
+                            draggable="false"
+                            onError={hideBrokenImage}
+                          />
+                        )}
+                        <span className="pjc-media__num" aria-hidden="true">{project.number}</span>
+                      </div>
+
+                      <div className="pjc-body">
+                        <span className="pjc-eyebrow">Project {project.number}</span>
+                        <h3>{project.title}</h3>
+                        <p>{project.summary}</p>
+
+                        {project.impact && (
+                          <div className="pjc-impact">
+                            <span className="pjc-impact__label">Manfaat</span>
+                            <p>{project.impact}</p>
+                          </div>
+                        )}
+
+                        <div className="pjc-tech">
+                          {project.tech.map((tech) => (
+                            <span key={tech}>{tech}</span>
+                          ))}
+                        </div>
+
+                        {project.detail && (
+                          <button
+                            type="button"
+                            className="experience-details-btn cursor-target"
+                            tabIndex={isActive ? 0 : -1}
+                            onClick={open}
+                          >
+                            Details <span aria-hidden="true">→</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
-        )}
+
+          <div className="pjc-controls">
+            <button
+              type="button"
+              className="pjc-arrow cursor-target"
+              aria-label="Project sebelumnya"
+              onClick={() => goProjectSlide(projectSlide - 1)}
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
+
+            <div className="pjc-dots" role="tablist" aria-label="Pilih project">
+              {projectItems.map((project, i) => (
+                <button
+                  key={project.number}
+                  type="button"
+                  role="tab"
+                  aria-selected={projectSlide === i}
+                  aria-label={`Project ${project.number}`}
+                  className={`pjc-dot cursor-target${projectSlide === i ? ' is-active' : ''}`}
+                  onClick={() => goProjectSlide(i)}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className="pjc-arrow cursor-target"
+              aria-label="Project berikutnya"
+              onClick={() => goProjectSlide(projectSlide + 1)}
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+
+          <p className="pjc-counter" aria-live="polite">
+            <strong>{String(projectSlide + 1).padStart(2, '0')}</strong>
+            {' / '}
+            {String(totalProjectSlides).padStart(2, '0')}
+          </p>
+        </div>
       </section>
 
       {/* Certifications */}
@@ -3073,11 +3206,11 @@ function App() {
         className="section certifications"
       >
         <p className="section-label">
-          CERTIFICATIONS
+          SERTIFIKAT
         </p>
 
         <h2>
-          Proof of continuous learning.
+          Bukti proses belajar saya.
         </h2>
 
         <div className="cert-folder-hero">
@@ -3115,16 +3248,16 @@ function App() {
         <FloatingEnvelope />
 
         <p className="section-label">
-          CONTACT
+          KONTAK
         </p>
 
         <h2>
-          Let's Connect<span className="contact-title-dot">.</span>
+          Mari Terhubung<span className="contact-title-dot">.</span>
         </h2>
 
         <p className="section-description contact-intro">
-          Have a project, opportunity, or just want to say hello? Feel free
-          to reach out — I'd love to hear from you.
+          Punya peluang kerja, proyek, atau sekadar ingin menyapa? Silakan
+          hubungi saya, saya senang mendengar kabar dari Anda.
         </p>
 
 
@@ -3134,7 +3267,7 @@ function App() {
             <span className="cw-head-label">Hubungi saya</span>
             <span className="contact-head-status">
               <span className="contact-availability__dot" aria-hidden="true" />
-              Open to work
+              Terbuka untuk bekerja
             </span>
           </div>
 
@@ -3181,7 +3314,7 @@ function App() {
               </svg>
             </span>
             <span className="contact-info-text">
-              <span className="contact-info-label">Location</span>
+              <span className="contact-info-label">Lokasi</span>
               <span className="contact-info-value">Karawang, Indonesia</span>
             </span>
           </div>
@@ -3191,11 +3324,11 @@ function App() {
         <div className="contact-form-card">
           <div className="contact-form-info">
             <h3>
-              Send Me a <em>Message</em>
+              Kirim <em>Pesan</em>
             </h3>
             <p>
-              Whether it's a collaboration, freelance project, or just a
-              quick question — I'm always open to conversation.
+              Untuk kesempatan kerja, kolaborasi, atau sekadar pertanyaan
+              singkat, saya terbuka untuk berdiskusi.
             </p>
             <p className="contact-form-note">Biasanya membalas dalam 24 jam.</p>
           </div>
@@ -3217,10 +3350,10 @@ function App() {
                 <input
                   type="text"
                   name="name"
-                  placeholder="Your Name"
+                  placeholder="Nama Anda"
                   autoComplete="name"
                   maxLength={80}
-                  aria-label="Your name"
+                  aria-label="Nama Anda"
                   value={contactForm.name}
                   onChange={handleContactChange}
                   required
@@ -3235,10 +3368,10 @@ function App() {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Your Email"
+                  placeholder="Email Anda"
                   autoComplete="email"
                   maxLength={120}
-                  aria-label="Your email"
+                  aria-label="Email Anda"
                   value={contactForm.email}
                   onChange={handleContactChange}
                   required
@@ -3252,10 +3385,10 @@ function App() {
               </svg>
               <textarea
                 name="message"
-                placeholder="Your Message"
+                placeholder="Pesan Anda"
                 rows={4}
                 maxLength={2000}
-                aria-label="Your message"
+                aria-label="Pesan Anda"
                 value={contactForm.message}
                 onChange={handleContactChange}
                 required
@@ -3271,11 +3404,11 @@ function App() {
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                   <path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z" />
                 </svg>
-                {contactStatus === 'sending' && 'Sending...'}
-                {contactStatus === 'sent' && 'Message Sent!'}
-                {contactStatus === 'opened' && 'Opening Email...'}
-                {contactStatus === 'error' && 'Try Again'}
-                {contactStatus === 'idle' && 'Send Message'}
+                {contactStatus === 'sending' && 'Mengirim...'}
+                {contactStatus === 'sent' && 'Pesan Terkirim!'}
+                {contactStatus === 'opened' && 'Membuka Email...'}
+                {contactStatus === 'error' && 'Coba Lagi'}
+                {contactStatus === 'idle' && 'Kirim Pesan'}
               </button>
             </div>
 
@@ -3292,9 +3425,9 @@ function App() {
               aria-live="polite"
             >
               {contactStatus === 'sent' &&
-                "Thank you! Your message has been sent. I'll get back to you soon."}
+                "Terima kasih! Pesan Anda sudah terkirim. Saya akan segera membalas."}
               {contactStatus === 'opened' &&
-                `Your email app should open with the message ready. If nothing happens, email me at ${CONTACT.email}.`}
+                `Aplikasi email Anda akan terbuka dengan pesan yang sudah terisi. Jika tidak terbuka, kirim email ke ${CONTACT.email}.`}
               {contactStatus === 'error' && contactError}
             </p>
           </form>
