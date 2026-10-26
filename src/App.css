@@ -602,7 +602,6 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px;
 
   margin-top: 35px;
 }
@@ -610,24 +609,17 @@ a {
 /* Social links under Hero buttons */
 .hero-socials {
   display: flex;
-  justify-content: center;
-  gap: 22px;
   margin-top: 28px;
-  position: relative;
   z-index: 1;
 }
 
 .hero-socials a {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 14px;
   transition: 0.3s;
 }
 
 .hero-socials a:hover {
-  color: var(--text-strong);
   transform: translateY(-2px);
 }
 
@@ -922,7 +914,6 @@ a {
   height: 56px;
 
   border-radius: 16px;
-  background: rgba(139, 92, 246, 0.07);
   border: 1px solid rgba(139, 92, 246, 0.16);
 
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
@@ -973,7 +964,6 @@ a {
   transform: scale(1.06);
 }
 
-
 /* =========================
    EXPERIENCE / ORGANIZATION
 ========================= */
@@ -1008,7 +998,6 @@ a {
 
 .experience-card h3 {
   margin: 0 0 8px;
-  font-size: 22px;
 }
 
 .experience-meta {
@@ -1238,8 +1227,6 @@ a {
   padding: 24px;
 
   background: var(--overlay);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 
   animation: experienceFade 0.25s ease;
 }
@@ -1315,7 +1302,6 @@ a {
 
 .experience-modal-body h3 {
   margin: 0 0 8px;
-  font-size: 24px;
   line-height: 1.3;
 }
 
@@ -1330,9 +1316,6 @@ a {
 }
 
 @media (max-width: 640px) {
-  .experience-modal {
-    padding: 12px;
-  }
 
   .experience-modal-panel {
     max-height: 92vh;
@@ -1343,9 +1326,6 @@ a {
     padding: 18px 18px 24px;
   }
 
-  .experience-modal-body h3 {
-    font-size: 20px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1376,19 +1356,13 @@ a {
 
 .cert-categories {
   margin-top: 0;
-  max-height: 0;
   opacity: 0;
-  overflow: hidden;
-  display: flex;
   flex-direction: column;
-  gap: 40px;
   text-align: left;
-  transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
 }
 
 .cert-categories--open {
   margin-top: 50px;
-  max-height: 3000px;
   opacity: 1;
 }
 
@@ -1683,13 +1657,6 @@ html {
 }
 
 /* =====================================================================
-   ABOUT — foto di kiri, keterangan di kanan (laptop, tablet, DAN HP)
-   Taruh di PALING BAWAH file supaya mengalahkan aturan lama di atas.
-   Di layar > 960px tampilan laptop tidak berubah sama sekali.
-===================================================================== */
-
-
-/* =====================================================================
    ANIMASI ABOUT
    1) Glow ungu di foto "bernapas" pelan
    2) Reveal on scroll (fade + naik) untuk foto & teks
@@ -1723,21 +1690,12 @@ html {
   }
 }
 
-
 /* =====================================================================
    ABOUT — PENYEMPURNAAN TAMPILAN TABLET & HP
    (aturan di bawah ini mengalahkan aturan About sebelumnya)
 ===================================================================== */
 
 /* Badge "Open to Opportunities": satu baris, tidak menutupi foto di HP */
-
-
-/* =====================================================================
-   EXPERIENCE — MODE HP / TABLET / LAYAR SENTUH
-   Kartu menumpuk dengan position: sticky (ikut scroll halaman biasa),
-   menggantikan ScrollStack yang scroll di dalam kotak.
-===================================================================== */
-
 
 /* =====================================================================
    SKILLS (judul "A PROBLEM IS A CHANCE...") — PENYEMPURNAAN HP
@@ -1758,7 +1716,6 @@ html {
   /* Tools: 3 kolom (bukan 2) supaya daftar tidak terlalu panjang */
 }
 
-
 /* =====================================================================
    SKILLS — TIGA KARTU (Front-end, Back-end, Tools)
    Laptop : Front-end & Back-end berdampingan, Tools selebar penuh di bawah
@@ -1766,7 +1723,6 @@ html {
 ===================================================================== */
 .skills-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 
   max-width: 1100px;
@@ -1777,7 +1733,6 @@ html {
 
 .skill-group {
   position: relative;
-  padding: 28px 28px 30px;
 
   background: var(--card-grad);
   border: 1px solid var(--border);
@@ -1794,28 +1749,16 @@ html {
   grid-column: 1 / -1;
 }
 
-.skill-group-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-bottom: 22px;
-}
-
 .skill-group-head h3 {
   margin: 0;
-  font-size: 18px;
   letter-spacing: -0.3px;
   color: var(--text-strong);
 }
 
 .skill-group-tag {
-  padding: 4px 12px;
   border-radius: 999px;
   background: rgba(139, 92, 246, 0.12);
   color: var(--accent-soft);
-  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -1824,10 +1767,8 @@ html {
 .skill-group-grid {
   display: grid;
   grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
-  gap: 12px;
 }
 
-.skill-group--frontend .skill-group-grid { --cols: 4; }
 .skill-group--backend .skill-group-grid  { --cols: 3; }
 .skill-group--tools .skill-group-grid    { --cols: 6; }
 
@@ -1845,7 +1786,6 @@ html {
 
 /* HP */
 
-
 /* =====================================================================
    SKILLS — PEMBARUAN
    1) Kutipan "A problem is a chance..." dengan gaya sendiri
@@ -1860,14 +1800,10 @@ html {
 .skill-group--data .skill-group-grid {
   --cols: 2;
 }
-  .skills-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 
   .skill-group--frontend .skill-group-grid {
     --cols: 2;
   }
-
 
 /* =====================================================================
    CERTIFICATIONS — PEMBARUAN
@@ -2019,7 +1955,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    EDUCATION — DAFTAR JENJANG (ACCORDION, MOBILE-FIRST)
    Satu struktur untuk semua layar: tiap jenjang satu baris dengan huruf
@@ -2027,8 +1962,7 @@ html {
    Pendidikan terakhir terbuka sejak awal. Animasi hanya saat diketuk.
 ===================================================================== */
 .edu-wrap {
-  --edu-lvl: 40px;               /* ukuran huruf jenjang */
-  --edu-gap: 14px;
+  /* ukuran huruf jenjang */
   --edu-col: calc(var(--edu-lvl) * 2.7); /* lebar kolom huruf (muat "SMA") */
 
   max-width: 860px;
@@ -2050,16 +1984,10 @@ html {
 /* ---------- Baris (tombol) ---------- */
 .edu-head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 30px;
-  grid-template-areas:
-    'level chev'
-    'main  main'
-    'time  time';
   align-items: center;
   row-gap: 4px;
 
   width: 100%;
-  padding: 20px 2px 22px;
 
   background: none;
   border: 0;
@@ -2100,12 +2028,10 @@ html {
 .edu-head-main {
   grid-area: main;
   min-width: 0;
-  margin-top: 10px;
 }
 
 .edu-name {
   display: block;
-  font-size: 19px;
   font-weight: 600;
   line-height: 1.3;
   color: var(--text-strong);
@@ -2122,9 +2048,7 @@ html {
   grid-area: time;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 6px 10px;
-  margin-top: 6px;
 }
 
 .edu-years {
@@ -2214,9 +2138,6 @@ html {
 
 .edu-panel-content {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  padding: 2px 2px 26px;
 }
 
 /* Deskripsi singkat jenjang (memanjang di atas logo & fakta) */
@@ -2235,7 +2156,6 @@ html {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  aspect-ratio: 16 / 9;
   padding: clamp(18px, 5vw, 32px);
   border-radius: 14px;
   object-fit: contain;
@@ -2253,7 +2173,6 @@ html {
 .edu-facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 32px;
   margin: 0;
 }
 
@@ -2331,7 +2250,6 @@ html {
     transition-delay: 0s !important;
   }
 }
-
 
 /* =====================================================================
    KONSEP BARU — "AURORA" DI SELURUH HALAMAN
@@ -2470,7 +2388,6 @@ html {
   background: rgba(139, 92, 246, 0.08);
 }
 
-
 /* =====================================================================
    ABOUT — FOTO LEBIH BESAR & RESPONSIF
    Ditaruh paling bawah supaya mengalahkan aturan About sebelumnya.
@@ -2489,7 +2406,6 @@ html {
     max-width: 1320px;
   }
 }
-
 
 /* =====================================================================
    ANIMASI BARU (CSS saja, ringan, aman untuk HP)
@@ -2514,8 +2430,6 @@ html {
   .hero-greeting     { animation-delay: 0.10s; }
   .hero-stroke-title { animation-delay: 0.25s; }
   .hero-description  { animation-delay: 0.55s; }
-  .hero-buttons      { animation-delay: 0.70s; }
-  .hero-socials      { animation-delay: 0.85s; }
 
   /* 2) Tombol utama & kirim: kilau cahaya melintas saat di-hover */
   .primary-button,
@@ -2590,7 +2504,6 @@ html {
   }
 }
 
-
 /* 7) Muncul saat di-scroll (tanpa JavaScript) untuk project, sertifikat,
       kontak & footer. Memakai scroll-driven animation; browser yang belum
       mendukung otomatis menampilkan elemen seperti biasa (tidak ada yang
@@ -2634,7 +2547,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    ABOUT — FOTO DALAM BINGKAI "KEREN"
    - Sudut membulat + bayangan dalam, tidak lagi memudar di tepi
@@ -2674,7 +2586,6 @@ html {
   background: rgb(124 58 237 / 0.07);
 }
 
-
 /* =====================================================================
    ABOUT — PERBAIKAN TAMPILAN TABLET & HP (menimpa aturan sebelumnya)
    - Badge "Open to Opportunities" sempat tertutup foto -> diberi z-index
@@ -2685,7 +2596,6 @@ html {
 ===================================================================== */
 
 /* Badge menempel di tepi bawah bingkai & selalu terlihat di atas foto */
-
 
 /* =====================================================================
    FOOTER
@@ -2817,7 +2727,6 @@ html {
   outline-offset: 3px;
   border-radius: 4px;
 }
-
 
 /* =====================================================================
    DETAIL KEGIATAN (HIMAIF) — nama + penjelasan + foto per kegiatan
@@ -3024,10 +2933,6 @@ html {
     padding: 14px 14px 16px;
   }
 
-  .experience-photo {
-    flex-basis: 78%;
-  }
-
   .experience-lightbox {
     padding: 56px 10px 20px;
   }
@@ -3056,7 +2961,6 @@ html {
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--n, 2), 1fr);
-  width: min(100%, 260px);
   padding: 3px;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
@@ -3236,13 +3140,6 @@ html {
     animation: none;
   }
 }
-
-
-/* =====================================================================
-   CERTIFICATIONS — tampilan sederhana
-   Klik folder -> langsung tampil sertifikat + keterangan singkat
-   (tanpa filter, ikon, hitungan, atau badge tambahan).
-===================================================================== */
 
 /* =====================================================================
    DETAIL KEGIATAN — foto lebih besar di HP + teks rata kiri-kanan
@@ -3440,15 +3337,10 @@ html {
 
 /* ---------- Kalimat pembuka ---------- */
 .skills-lead {
-  max-width: 520px;
   margin: 0 auto;
 
   color: var(--text-soft);
-  font-size: clamp(16.5px, 2.2vw, 20px);
-  font-weight: 500;
-  line-height: 1.6;
   letter-spacing: -0.1px;
-  text-wrap: balance;
 }
 
 .skills-meta {
@@ -3477,11 +3369,6 @@ html {
   color: var(--text-strong);
   font-size: 15px;
   font-weight: 700;
-}
-
-/* ---------- Kartu ---------- */
-.skills-cards {
-  margin-top: 40px;
 }
 
 .skill-group {
@@ -3622,20 +3509,10 @@ html {
   }
 }
 
-
-/* Skills — kalimat pembuka: dua bagian (utama + penjelas), nyaman dibaca */
-.skills-lead {
-  max-width: 600px;
-}
-
-
 /* Skills — satu paragraf pembuka: sedikit lebih lebar & ukuran disesuaikan
    dengan panjang kalimat supaya tetap enak dibaca (3 baris seimbang). */
 .skills-lead {
-  max-width: 640px;
-  font-size: clamp(16px, 2vw, 18.5px);
   font-weight: 400;
-  line-height: 1.75;
 }
 
 /* Skills — paragraf pembuka melebar jadi 2 baris seimbang di laptop & tablet.
@@ -4176,8 +4053,6 @@ html {
   margin-top: 14px;
 }
 
-/* ---------- Tablet kecil / HP / layar sentuh: kartu menumpuk ---------- */
-
 /* Tema terang: foto non-aktif tidak terlalu gelap di atas latar terang */
 :root[data-theme="light"] .pj-card:not(.is-active) .pj-card__img {
   filter: grayscale(1) brightness(0.86);
@@ -4602,7 +4477,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    EDUCATION — BLOK UTAMA (pendidikan terakhir)
    Laptop : foto lebar + info di kiri, foto besar di kanan.
@@ -4611,12 +4485,6 @@ html {
 ===================================================================== */
 .edu-feature {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas:
-    'wide'
-    'tall'
-    'info';
-  gap: 22px;
 
   margin: 0;
   text-align: left;
@@ -4649,7 +4517,6 @@ html {
 }
 
 .edu-feature__wide .edu-shot { aspect-ratio: 2.1 / 1; }
-.edu-feature__tall .edu-shot { aspect-ratio: 4 / 3; }
 
 .edu-shot img {
   position: absolute;
@@ -4695,9 +4562,6 @@ html {
     transform: scale(1.03);
   }
 }
-
-
-
 
 .edu-feature__line {
   margin: 2px 0 0;
@@ -4769,12 +4633,10 @@ html {
 /* Panel S1 di dalam accordion: foto & info memakai seluruh lebar panel */
 .edu-panel-content--feature {
   display: block;
-  padding: 4px 2px 30px;
 }
   .edu-panel-content--feature {
     padding: 4px 4px 34px;
   }
-
 
 /* =====================================================================
    TAMPILAN HP = TAMPILAN LAPTOP
@@ -5158,58 +5020,6 @@ html {
     font-size: 12px;
   }
 
-  .skills-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 20px;
-  }
-
-  .skill-group {
-    padding: 12px 8px;
-    border-radius: 14px;
-  }
-
-  .skill-group::before {
-    left: 10px;
-    right: 10px;
-  }
-
-  .skill-group-head {
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-
-  .skill-group-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 8px;
-  }
-
-  .skill-group-icon svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .skill-group-head h3 {
-    font-size: 11.5px;
-  }
-
-  .skill-group-tag {
-    padding: 2px 6px;
-    font-size: 8px;
-  }
-
-  .skill-group-desc {
-    margin-top: 4px;
-    font-size: 9px;
-    line-height: 1.45;
-  }
-
-  .skill-group-grid {
-    gap: 5px;
-  }
-
   .skill-group--frontend .skill-group-grid,
   .skill-group--backend .skill-group-grid,
   .skill-group--data .skill-group-grid {
@@ -5221,24 +5031,7 @@ html {
   }
 
   .skill-group .skills-tool-item {
-    gap: 4px;
-    padding: 6px 1px 5px;
-    border-radius: 8px;
-    font-size: 8px;
     letter-spacing: 0;
-  }
-
-  .skills-tool-icon-wrap {
-    width: 26px;
-    height: 26px;
-    border-radius: 8px;
-  }
-
-  .skills-tool-item img {
-    width: 14px;
-    height: 14px;
-    max-width: 14px;
-    max-height: 14px;
   }
 
   /* ---------- Projects: grid bento sama seperti laptop ---------- */
@@ -5563,7 +5356,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    HP TEGAK (<= 600px) — penyesuaian About, Education (foto), Projects
    Layar miring dan laptop tidak terpengaruh. Ditaruh PALING BAWAH.
@@ -5820,7 +5612,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    CONTACT — status "Open to work" + tautan cepat (semua ukuran layar)
 ===================================================================== */
@@ -5895,7 +5686,6 @@ html {
     to   { transform: scale(3); opacity: 0; }
   }
 }
-
 
 /* =====================================================================
    CONTACT — HP (<= 700px): kartu ditumpuk, huruf nyaman dibaca
@@ -5999,7 +5789,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    CONTACT — dibungkus kotak besar (gaya sama seperti "Arsip Sertifikat")
    Memakai class .cw yang sudah ada; di sini hanya penyesuaian isinya.
@@ -6078,7 +5867,6 @@ html {
 .contact-panel .contact-quick__link:not(.contact-quick__link--primary) {
   background: var(--bg);
 }
-
 
 /* =====================================================================
    HERO — FLOATING 3D ORB (pengganti benang SVG)
@@ -6183,7 +5971,6 @@ html {
   .hero-orb--small { width: 56px;  left: -16px;  bottom: 8%; opacity: 0.8; }
 }
 
-
 /* =====================================================================
    HERO — PENATAAN TOMBOL & GITHUB/LINKEDIN
    Isi tidak berubah, hanya penempatannya.
@@ -6282,7 +6069,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    EDUCATION S1 — foto pas di kotak + logo kampus
    Kotak foto mengikuti rasio asli fotonya (diatur lewat JS di EduShot),
@@ -6322,7 +6108,6 @@ html {
     margin-bottom: 14px;
   }
 }
-
 
 /* =====================================================================
    EDUCATION — HOLOGRAPHIC SPHERE (bola hologram 3D di latar)
@@ -6595,7 +6380,6 @@ html {
     animation: none;
   }
 }
-
 
 /* =====================================================================
    CONTACT — FLOATING 3D ENVELOPE (amplop 3D melayang di latar)
@@ -6904,7 +6688,6 @@ html {
   }
 }
 
-
 /* Footer: kontak berbentuk ikon */
 .footer-icons {
   display: flex;
@@ -6959,7 +6742,6 @@ html {
     font-size: 10px;
   }
 }
-
 
 /* =====================================================================
    PROJECTS — LAPTOP 3D MELAYANG (latar section)
@@ -7380,7 +7162,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    EXPERIENCE — PERBAIKAN TAMPILAN HP (<= 900px)
    Foto di atas, teks di bawah (bukan kiri-kanan), supaya foto tidak
@@ -7542,7 +7323,6 @@ html {
     font-size: 11px;
   }
 }
-
 
 /* =====================================================================
    PROJECTS — SLIDER (geser dengan panah < >)
@@ -7877,7 +7657,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    SKILLS — TAB KATEGORI + KARTU SETARA
    Tab: Semua / Hard & Soft Skill / Data & Analytics / Web / Tools.
@@ -8075,7 +7854,6 @@ html {
   }
 }
 
-
 /* ---------- Manfaat project (satu kalimat) ---------- */
 .pjc-impact {
   padding: 2px 0 2px 14px;
@@ -8108,4 +7886,1404 @@ html {
   .pjc-body .pjc-impact p {
     font-size: 12.5px;
   }
+}
+
+/* =====================================================================
+   HERO 2 KOLOM — 5 ELEMEN: nama+gelar, jabatan, deskripsi, tombol, foto
+   Laptop : teks rata kiri, foto di kanan dalam bingkai lengkung ungu.
+   HP/tablet : foto di atas, teks rata tengah di bawahnya.
+   Ditaruh PALING BAWAH supaya mengalahkan aturan hero sebelumnya.
+===================================================================== */
+
+/* Dekorasi lama (bola 3D) disembunyikan supaya foto jadi pusat perhatian */
+.hero-orbs { display: none; }
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+}
+
+.hero .hero-inner .hero-content { max-width: none; }
+
+/* Nama + gelar: rata kiri, tanpa margin tambahan */
+.hero .hero-inner .hero-stroke-title {
+  margin: 0 0 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.hero .hero-inner .hero-stroke-title > * { margin-left: 0; }
+
+/* Tombol Unduh CV: ikon + teks sejajar */
+.hero-buttons .primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ---------- Foto ---------- */
+.hero-photo {
+  position: relative;
+  height: min(620px, 74vh);
+  aspect-ratio: 590 / 1040;
+  margin-inline: auto;
+}
+
+/* Bingkai lengkung; kepala sengaja menembus bagian atasnya */
+.hero-photo__arch {
+  position: absolute;
+  inset: 20% 0 0 0;
+  border-radius: 999px 999px 30px 30px;
+  border: 1px solid color-mix(in srgb, var(--accent-soft) 40%, transparent);
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--aurora-3) 45%, transparent), transparent 62%),
+    linear-gradient(170deg,
+      color-mix(in srgb, var(--aurora-1) 50%, transparent),
+      color-mix(in srgb, var(--aurora-2) 22%, transparent) 58%,
+      color-mix(in srgb, var(--aurora-1) 4%, transparent));
+  box-shadow: 0 30px 80px -34px color-mix(in srgb, var(--aurora-1) 70%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 99%);
+}
+
+.hero-photo__img {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  translate: -50% 0;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 84%, transparent 99%);
+  filter: drop-shadow(0 18px 28px rgb(0 0 0 / 0.3));
+}
+
+/* Laptop/desktop: teks rata kiri */
+@media (min-width: 961px) {
+  .hero {
+    padding: 110px 30px 70px;
+    text-align: left;
+  }
+
+  .hero .hero-inner h2 { justify-content: flex-start; }
+
+  .hero .hero-description {
+    margin: 0;
+    max-width: 540px;
+  }
+
+  .hero .hero-buttons { justify-content: flex-start; }
+
+  /* GitHub & LinkedIn ikut rata kiri */
+  .hero .hero-socials {
+    margin: 26px 0 0;
+    padding-top: 22px;
+  }
+
+  .hero .hero-socials::before {
+    left: 0;
+    width: 100%;
+    translate: 0 0;
+    background: linear-gradient(90deg, var(--border-strong), transparent);
+  }
+}
+
+/* Tablet & HP: satu kolom, foto di atas */
+@media (max-width: 960px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+    justify-items: center;
+  }
+
+  .hero-photo {
+    order: -1;
+    height: auto;
+    width: min(280px, 68vw);
+  }
+
+  .hero .hero-inner .hero-stroke-title { align-items: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-photo { width: min(240px, 64vw); }
+}
+
+/* Animasi masuk (dilewati jika perangkat meminta gerakan dikurangi) */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-photo-in {
+    from { opacity: 0; translate: 0 40px; scale: 0.96; }
+    to   { opacity: 1; translate: 0 0; scale: 1; }
+  }
+  .hero-photo { animation: hero-photo-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both; }
+}
+
+/* =====================================================================
+   HERO — SPASI SETELAH DESKRIPSI DIHAPUS + ANIMASI RINGAN
+   Semua animasi hanya memakai transform & opacity (ramah HP), tanpa
+   library dan tanpa JavaScript. Mati otomatis jika perangkat meminta
+   gerakan dikurangi.
+===================================================================== */
+.hero .hero-inner h2 {
+  margin: 18px 0 0;
+}
+
+.hero .hero-buttons {
+  margin-top: 30px;
+}
+
+/* Cahaya lembut di belakang foto */
+.hero-photo { isolation: isolate; }
+
+.hero-photo::before {
+  content: '';
+  position: absolute;
+  inset: 12% -12% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    color-mix(in srgb, var(--aurora-1) 38%, transparent), transparent 72%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 1) Isi teks muncul berurutan: nama -> jabatan -> tombol -> sosial */
+  .hero .hero-inner h2 {
+    animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+  }
+  .hero-buttons { animation-delay: 0.65s; }
+  .hero-socials { animation-delay: 0.8s; }
+
+  /* 2) Foto: bingkai membesar pelan, lalu orangnya melayang naik-turun sangat halus */
+  @keyframes hero-arch-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes hero-person-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+  }
+  @keyframes hero-glow-breathe {
+    0%, 100% { opacity: 0.55; transform: scale(0.97); }
+    50%      { opacity: 1;    transform: scale(1.04); }
+  }
+
+  .hero-photo__arch {
+    transform-origin: 50% 100%;
+    animation: hero-arch-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+  }
+
+  .hero-photo__img {
+    will-change: transform;
+    animation: hero-person-float 6s ease-in-out 1.6s infinite;
+  }
+
+  /* 3) Cahaya di belakang foto "bernapas" pelan */
+  .hero-photo::before {
+    animation: hero-glow-breathe 6s ease-in-out infinite;
+  }
+
+  /* 4) Tombol & sosial naik sedikit saat disentuh */
+  .hero .hero-buttons a,
+  .hero .hero-socials a {
+    transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .hero .hero-buttons a:hover,
+  .hero .hero-socials a:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* =====================================================================
+   JENDELA DETAIL (Experience & Project) — MEGAH & ELEGAN
+   Header sinematik berisi foto + judul, garis kemajuan di atas, kegiatan
+   tersusun sebagai linimasa bernomor, daftar bergaya centang, dan tag.
+   Animasi hanya memakai transform/opacity. Ditaruh PALING BAWAH.
+===================================================================== */
+.experience-modal {
+  background:
+    radial-gradient(70% 55% at 50% 0%, color-mix(in srgb, var(--aurora-1) 22%, transparent), transparent 70%),
+    var(--overlay);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.experience-modal-panel.xd-panel {
+  max-width: 960px;
+  max-height: 92vh;
+  max-height: 92dvh;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--accent-soft) 32%, transparent);
+  background:
+    radial-gradient(90% 40% at 50% 0%, color-mix(in srgb, var(--aurora-1) 12%, transparent), transparent 70%),
+    rgb(var(--surface-rgb));
+  box-shadow:
+    0 40px 120px -20px rgb(var(--shadow-rgb) / 0.7),
+    0 0 0 1px rgb(var(--ov) / 0.04),
+    0 0 90px -10px color-mix(in srgb, var(--aurora-1) 28%, transparent);
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 45%, transparent) transparent;
+}
+
+/* Garis kemajuan baca */
+.xd-progress {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  height: 3px;
+  margin-bottom: -3px;
+  pointer-events: none;
+}
+
+.xd-progress span {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--accent), var(--aurora-3));
+}
+
+/* Tombol tutup: kaca bulat */
+.experience-modal-close.xd-close {
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  margin: 16px 16px -56px auto;
+  background: rgb(var(--bg-rgb) / 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(var(--ov) / 0.22);
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.experience-modal-close.xd-close:hover {
+  transform: rotate(90deg);
+}
+
+/* ---------- Header ---------- */
+.xd-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(250px, 36vw, 360px);
+  overflow: hidden;
+  background:
+    radial-gradient(80% 90% at 20% 0%, color-mix(in srgb, var(--aurora-1) 45%, transparent), transparent 70%),
+    radial-gradient(70% 80% at 100% 30%, color-mix(in srgb, var(--aurora-2) 38%, transparent), transparent 70%),
+    var(--media-grad);
+}
+
+.xd-hero--plain {
+  min-height: clamp(190px, 26vw, 250px);
+}
+
+.xd-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Logo / gambar yang harus tampil utuh */
+.xd-hero__img.is-contain {
+  object-fit: contain;
+  padding: 44px 44px 120px;
+}
+
+.xd-hero__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgb(var(--surface-rgb)) 0%,
+    rgb(var(--surface-rgb) / 0.9) 26%,
+    rgb(var(--surface-rgb) / 0.4) 58%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.xd-hero__text {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 clamp(20px, 4vw, 44px) 26px;
+  text-align: left;
+}
+
+.xd-badge {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 6px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent-soft) 45%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--accent-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.experience-modal-body .xd-title,
+.xd-title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: clamp(22px, 3.1vw, 32px);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
+  text-wrap: balance;
+}
+
+.xd-meta {
+  margin: 10px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-soft);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.xd-meta::before {
+  content: '';
+  flex: none;
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--aurora-3));
+}
+
+/* ---------- Isi ---------- */
+.xd-body {
+  padding: 8px clamp(20px, 4vw, 44px) 44px;
+  text-align: left;
+}
+
+.xd-intro {
+  margin-top: 8px;
+  padding-left: 20px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.xd-body .experience-desc {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.85;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.xd-body .experience-desc + .experience-desc {
+  margin-top: 14px;
+}
+
+.xd-body .xd-lead {
+  color: var(--text-body);
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.xd-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.xd-photos img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+
+/* Judul bagian: label kecil + garis memanjang */
+.xd-section {
+  margin-top: 38px;
+}
+
+.xd-section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 20px;
+  color: var(--accent-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 2.6px;
+  text-transform: uppercase;
+}
+
+.xd-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 50%, transparent), transparent);
+}
+
+/* ---------- Linimasa kegiatan ---------- */
+.xd-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xd-step {
+  position: relative;
+  padding-left: 58px;
+}
+
+.xd-step::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 42px;
+  bottom: -20px;
+  width: 1px;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 8%, transparent));
+}
+
+.xd-step:last-child::before {
+  display: none;
+}
+
+.xd-step__dot {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 50%;
+  background: rgb(var(--surface-rgb));
+  box-shadow:
+    0 0 0 5px rgb(var(--surface-rgb)),
+    0 0 22px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+  color: var(--accent-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.xd-step .experience-activity {
+  padding: 20px 22px 22px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 55%),
+    rgb(var(--ov) / 0.025);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.xd-step .experience-activity:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--aurora-1) 60%, transparent);
+}
+
+.xd-step .experience-activity-title {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.xd-step .experience-activity-text {
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* ---------- Daftar bergaya centang ---------- */
+.xd-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xd-list li {
+  position: relative;
+  padding-left: 34px;
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.75;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.xd-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 21px;
+  height: 21px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.xd-list li::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: calc(0.2em + 5px);
+  width: 7px;
+  height: 4px;
+  border-left: 2px solid var(--accent-soft);
+  border-bottom: 2px solid var(--accent-soft);
+  rotate: -45deg;
+}
+
+/* ---------- Tag & tombol tautan ---------- */
+.xd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.xd-tags span {
+  padding: 8px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  color: var(--text-body);
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.xd-tags span:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.xd-link {
+  margin-top: 34px;
+}
+
+/* ---------- HP ---------- */
+@media (max-width: 640px) {
+  .experience-modal { padding: 10px; }
+
+  .experience-modal-panel.xd-panel {
+    max-height: 94vh;
+    max-height: 94dvh;
+    border-radius: 22px;
+  }
+
+  .xd-hero { min-height: 230px; }
+  .xd-hero__img.is-contain { padding: 36px 30px 118px; }
+  .xd-hero__text { padding-bottom: 20px; }
+
+  .xd-body { padding-bottom: 32px; }
+  .xd-body .xd-lead { font-size: 15px; }
+  .xd-section { margin-top: 30px; }
+
+  .xd-step { padding-left: 46px; }
+  .xd-step::before { left: 14px; top: 36px; }
+  .xd-step__dot { width: 30px; height: 30px; font-size: 10.5px; }
+  .xd-step .experience-activity { padding: 16px 16px 18px; }
+}
+
+/* ---------- Animasi ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes xd-panel-in {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes xd-img-settle {
+    from { transform: scale(1.09); }
+    to   { transform: scale(1); }
+  }
+  @keyframes xd-rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .experience-modal-panel.xd-panel {
+    animation: xd-panel-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .xd-hero__img {
+    animation: xd-img-settle 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .xd-hero__text > * {
+    animation: xd-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .xd-hero__text > :nth-child(1) { animation-delay: 0.15s; }
+  .xd-hero__text > :nth-child(2) { animation-delay: 0.25s; }
+  .xd-hero__text > :nth-child(3) { animation-delay: 0.35s; }
+
+  .xd-body > * {
+    animation: xd-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .xd-body > :nth-child(1) { animation-delay: 0.30s; }
+  .xd-body > :nth-child(2) { animation-delay: 0.38s; }
+  .xd-body > :nth-child(3) { animation-delay: 0.46s; }
+  .xd-body > :nth-child(4) { animation-delay: 0.54s; }
+  .xd-body > :nth-child(5) { animation-delay: 0.62s; }
+  .xd-body > :nth-child(n+6) { animation-delay: 0.70s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xd-progress span { transition: none; }
+}
+
+/* =====================================================================
+   Keahlian & Proyek (digabung) — 2 tombol pengganti isi
+   ===================================================================== */
+.showcase {
+  width: 100%;
+}
+
+.showcase-switch {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  margin: 110px auto 0;
+  padding: 6px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.showcase-tab {
+  padding: 13px 30px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.showcase-tab:hover {
+  color: var(--text-strong);
+}
+
+.showcase-tab.is-active {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 10px 24px -8px rgb(139 92 246 / 0.75);
+}
+
+.showcase-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Panel yang tidak aktif benar-benar disembunyikan */
+.showcase [role="tabpanel"][hidden] {
+  display: none;
+}
+
+/* Jarak atas section di dalam panel dikurangi, karena sudah ada tombol di atasnya */
+.showcase [role="tabpanel"] > .section {
+  padding-top: 56px;
+}
+
+@media (max-width: 600px) {
+  .showcase-switch {
+    margin-top: 80px;
+  }
+
+  .showcase-tab {
+    padding: 11px 20px;
+    font-size: 14px;
+  }
+}
+/* =====================================================================
+   PORTOFOLIO — 3 TAB (Pengalaman & Organisasi / Keahlian / Proyek)
+   + TECH STACK DATAR: tiap tool tampil sendiri, tanpa kartu kategori.
+   Taruh di PALING BAWAH.
+===================================================================== */
+
+/* 3 tab: boleh digeser ke samping di layar sempit */
+.showcase-switch {
+  max-width: calc(100% - 32px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.showcase-switch::-webkit-scrollbar {
+  display: none;
+}
+
+.showcase-tab {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 760px) {
+  .showcase-switch {
+    justify-content: flex-start;
+  }
+
+  .showcase-tab {
+    padding: 11px 16px;
+    font-size: 13px;
+  }
+}
+
+/* ---------- Tech Stack ---------- */
+.stack-title {
+  margin: 44px 0 0;
+  text-align: center;
+  color: var(--text-strong);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stack-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px 8px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card-grad);
+
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+
+  transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stack-tile .skills-tool-icon-wrap {
+  width: 60px;
+  height: 60px;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.stack-tile img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.stack-tile__name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stack-tile:hover {
+  transform: translateY(-6px);
+  color: var(--text-strong);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 16px 30px -14px rgba(139, 92, 246, 0.45);
+}
+
+.stack-tile:hover .skills-tool-icon-wrap {
+  border-color: rgba(139, 92, 246, 0.55);
+  box-shadow: 0 10px 26px rgba(139, 92, 246, 0.28);
+  transform: scale(1.06);
+}
+
+/* Muncul bergantian saat section terlihat */
+@media (prefers-reduced-motion: no-preference) {
+  .skills-stage.is-visible .stack-tile {
+    animation: skillsPopIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(var(--d, 0) * 40ms + 250ms);
+  }
+}
+
+@media (max-width: 1000px) {
+  .stack-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stack-title {
+    margin-top: 32px;
+    font-size: 13px;
+  }
+
+  .stack-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .stack-tile {
+    gap: 8px;
+    padding: 14px 4px 12px;
+    border-radius: 14px;
+    font-size: 11px;
+  }
+
+  .stack-tile .skills-tool-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .stack-tile img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* =====================================================================
+   TECH STACK — ikon di kiri, nama + penjelasan kegunaan di kanan.
+   Taruh di PALING BAWAH (menimpa tampilan tile sebelumnya).
+===================================================================== */
+.stack-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stack-tile {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.stack-tile .skills-tool-icon-wrap {
+  flex: 0 0 auto;
+}
+
+.stack-tile__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.stack-tile__name {
+  color: var(--text-strong);
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.stack-tile__use {
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.stack-tile:hover {
+  transform: translateY(-4px);
+}
+
+@media (max-width: 900px) {
+  .stack-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .stack-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .stack-tile {
+    gap: 12px;
+    padding: 10px 12px;
+  }
+
+  .stack-tile__name {
+    font-size: 14px;
+  }
+
+  .stack-tile__use {
+    font-size: 12px;
+  }
+}
+
+/* Tab Keahlian: judul Tech Stack adalah elemen pertama */
+.skills-stage > .stack-title:first-child {
+  margin-top: 30px;
+}
+/* =====================================================================
+   HERO — "STAGE": nama raksasa di belakang foto cutout + glow merah
+   Lapisan (bawah → atas): glow → nama → foto → fade gelap → jabatan/tombol.
+   Hanya transform/opacity, jadi ringan. Parallax mouse lewat --px / --py
+   (diisi dari JS). Ditaruh PALING BAWAH supaya mengalahkan aturan hero lama.
+===================================================================== */
+.hero.hero--stage {
+  --hero-red: #dc2626;
+  --hero-red-soft: #f87171;
+  --hero-name-from: #ef4444;
+  --hero-name-to: #ffffff;
+  --px: 0;
+  --py: 0;
+
+  display: block;
+  min-height: 0;
+  height: clamp(580px, calc(100svh - var(--nav-h)), 920px);
+  padding: 0;
+  text-align: center;
+  background: var(--bg);
+}
+
+:root[data-theme="light"] .hero.hero--stage {
+  --hero-red: #dc2626;
+  --hero-red-soft: #ef4444;
+  --hero-name-from: #dc2626;
+  --hero-name-to: #17132b;
+}
+
+/* matikan hiasan lama yang bentrok */
+.hero.hero--stage::before,
+.hero.hero--stage .hero-aurora {
+  display: none;
+}
+
+/* ---------- Glow merah + cincin ---------- */
+.hs-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 62% at 50% 46%, rgb(185 28 28 / 0.46), rgb(110 12 22 / 0.22) 46%, transparent 74%),
+    repeating-radial-gradient(circle at 50% 46%, transparent 0 74px, rgb(239 68 68 / 0.07) 75px 76px);
+  -webkit-mask-image: radial-gradient(ellipse 70% 78% at 50% 46%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 78% at 50% 46%, #000 30%, transparent 78%);
+}
+
+:root[data-theme="light"] .hs-glow {
+  background:
+    radial-gradient(60% 62% at 50% 46%, rgb(239 68 68 / 0.26), rgb(248 113 113 / 0.12) 46%, transparent 74%),
+    repeating-radial-gradient(circle at 50% 46%, transparent 0 74px, rgb(220 38 38 / 0.08) 75px 76px);
+}
+
+/* ---------- Nama raksasa ---------- */
+.hero.hero--stage .hs-names {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(40px, 11%, 120px);
+  z-index: 1;
+  margin: 0;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: normal;
+
+  transform: translate3d(calc(var(--px) * -26px), calc(var(--py) * -12px), 0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hs-name {
+  display: block;
+  font-family: 'Syne', 'Unbounded', Inter, Arial, sans-serif;
+  font-weight: 800;
+  font-size: clamp(54px, 14.2vw, 232px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+
+/* Baris depan: tajam, gradasi merah → putih */
+.hs-name--front {
+  background: linear-gradient(90deg, var(--hero-name-from) 0%, var(--hero-name-to) 34%, var(--hero-name-to) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Baris belakang: samar & kabur, memudar ke bawah — seperti bayangan nama */
+.hs-name--back {
+  margin-top: -0.06em;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--hero-red-soft) 55%, transparent), transparent 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0.55;
+  filter: blur(1.5px);
+}
+
+/* ---------- Foto cutout ---------- */
+.hs-photo {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 2;
+  height: min(92%, 860px);
+  aspect-ratio: 590 / 1040;
+  pointer-events: none;
+
+  transform: translate3d(calc(-50% + var(--px) * 10px), calc(var(--py) * 6px), 0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hs-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 20px 40px rgb(0 0 0 / 0.5));
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+}
+
+/* ---------- Fade gelap bawah + jabatan + tombol ---------- */
+.hs-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 90px 20px clamp(22px, 4.5vh, 44px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  background: linear-gradient(to top, var(--bg) 8%, rgb(var(--bg-rgb) / 0.88) 42%, transparent 100%);
+}
+
+.hero.hero--stage .hs-role {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(15px, 1.7vw, 22px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-soft);
+}
+
+.hero.hero--stage .hero-rotating-text {
+  color: var(--hero-red-soft);
+}
+
+.hero.hero--stage .hero-buttons {
+  margin-top: 0;
+  justify-content: center;
+  gap: 12px;
+}
+
+.hero.hero--stage .primary-button {
+  background: var(--hero-red);
+  color: #fff;
+}
+
+.hero.hero--stage .primary-button:hover {
+  background: var(--hero-red-soft);
+  color: #fff;
+}
+
+.hero.hero--stage .secondary-button:hover {
+  border-color: var(--hero-red);
+}
+
+/* ---------- Rail sosial kiri ---------- */
+.hs-rail {
+  position: absolute;
+  left: clamp(16px, 2.6vw, 40px);
+  top: 0;
+  bottom: 0;
+  height: fit-content;
+  margin-block: auto;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.hs-rail a {
+  display: inline-flex;
+  color: var(--faint);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.hs-rail a:hover {
+  color: var(--hero-red-soft);
+  transform: translateX(3px);
+}
+
+/* ---------- Animasi masuk ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hs-name-in {
+    from { opacity: 0; translate: 0 46px; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+  @keyframes hs-name-back-in {
+    from { opacity: 0; translate: 0 -24px; }
+    to   { opacity: 0.55; translate: 0 0; }
+  }
+  @keyframes hs-photo-in {
+    from { opacity: 0; translate: 0 50px; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+  @keyframes hs-glow-in {
+    from { opacity: 0; scale: 0.9; }
+    to   { opacity: 1; scale: 1; }
+  }
+  @keyframes hs-glow-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.78; }
+  }
+
+  .hs-glow {
+    animation:
+      hs-glow-in 1.2s ease both,
+      hs-glow-pulse 6s ease-in-out 1.3s infinite;
+  }
+
+  /* Nama di latar bergerak pelan: baris depan ke kanan-kiri, baris belakang berlawanan */
+  @keyframes hs-drift-a {
+    from { transform: translate3d(-3.2vw, 0, 0); }
+    to   { transform: translate3d(3.2vw, 0, 0); }
+  }
+  @keyframes hs-drift-b {
+    from { transform: translate3d(3.8vw, 0, 0); }
+    to   { transform: translate3d(-3.8vw, 0, 0); }
+  }
+
+  .hs-name--front {
+    animation:
+      hs-name-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both,
+      hs-drift-a 8s ease-in-out 0s infinite alternate;
+  }
+  .hs-name--back {
+    animation:
+      hs-name-back-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both,
+      hs-drift-b 10s ease-in-out 0s infinite alternate;
+  }
+  .hs-photo img   { animation: hs-photo-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both; }
+  .hs-role        { animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
+  .hero.hero--stage .hero-buttons { animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both; }
+  .hs-rail        { animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s both; }
+}
+
+/* ---------- Tablet & HP ---------- */
+@media (max-width: 900px) {
+  .hero.hero--stage {
+    height: clamp(600px, calc(100svh - var(--nav-h)), 780px);
+  }
+
+  .hs-photo {
+    height: min(80%, 620px);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero.hero--stage .hs-names {
+    top: 15%;
+  }
+
+  .hs-name {
+    font-size: clamp(44px, 15.5vw, 120px);
+  }
+
+  .hs-photo {
+    height: min(66%, 520px);
+  }
+
+  .hs-bottom {
+    padding-top: 70px;
+    gap: 14px;
+  }
+
+  .hero.hero--stage .hero-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    max-width: 340px;
+    gap: 10px;
+  }
+
+  .hero.hero--stage .hero-buttons .primary-button {
+    grid-column: 1 / -1;
+  }
+
+  /* Rail sosial pindah jadi baris kecil di atas */
+  .hs-rail {
+    top: 14px;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    height: auto;
+    margin: 0 auto;
+    flex-direction: row;
+    gap: 22px;
+  }
+
+  .hs-rail a:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero--stage .hs-names,
+  .hs-photo {
+    transition: none;
+  }
+}
+
+
+/* =====================================================================
+   HERO bersih (tanpa jabatan & tombol) + tombol CV di About
+===================================================================== */
+.hs-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--bg) 6%, rgb(var(--bg-rgb) / 0.7) 45%, transparent 100%);
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 4px 0 28px;
+}
+
+@media (max-width: 900px) {
+  .about-actions {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+
+/* =====================================================================
+   NAMA HERO LENTUR — tiap huruf mengalir seperti gelombang/cairan
+   (naik-turun, miring, dan menggepeng-membesar sedikit) dengan jeda
+   berurutan. Hanya transform, jadi ringan. Menimpa animasi geser lama.
+===================================================================== */
+.hs-name--front,
+.hs-name--back {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: currentColor;
+  filter: none;
+  opacity: 1;
+}
+
+.hs-ch {
+  display: inline-block;
+  transform-origin: 50% 85%;
+  will-change: transform;
+}
+
+/* Gradasi per huruf: merah di awal kata -> putih (gelap di tema terang) */
+.hs-name--front .hs-ch {
+  color: color-mix(in srgb, var(--hero-name-from) calc((1 - var(--t)) * 100%), var(--hero-name-to));
+}
+
+.hs-name--back .hs-ch {
+  color: color-mix(in srgb, var(--hero-red-soft) 42%, transparent);
+  filter: blur(1.2px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hs-wave {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.6deg) skewX(-3deg) scale(1, 1); }
+    25%      { transform: translate3d(0.012em, -0.045em, 0) rotate(0deg) skewX(0deg) scale(1.03, 0.97); }
+    50%      { transform: translate3d(0, 0.025em, 0) rotate(1.6deg) skewX(3deg) scale(0.98, 1.04); }
+    75%      { transform: translate3d(-0.012em, -0.02em, 0) rotate(0deg) skewX(0deg) scale(1.02, 0.99); }
+  }
+
+  @keyframes hs-ch-in {
+    from { opacity: 0; translate: 0 0.35em; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+
+  .hs-name--front,
+  .hs-name--back {
+    animation: none;
+  }
+
+  .hs-name--front .hs-ch {
+    animation:
+      hs-ch-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i) * 70ms + 150ms) both,
+      hs-wave 4.4s ease-in-out calc(var(--i) * -0.5s) infinite;
+  }
+
+  .hs-name--back .hs-ch {
+    animation:
+      hs-ch-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i) * 70ms + 400ms) both,
+      hs-wave 5.6s ease-in-out calc(var(--i) * -0.6s) infinite reverse;
+  }
+}
+
+/* Tombol Unduh CV di navbar: ikon + teks sejajar, aksen merah */
+.nav-button--cv {
+  background: var(--hero-red, #dc2626);
+  border-color: transparent;
+  color: #fff;
+}
+
+.nav-button--cv:hover {
+  background: var(--hero-red-soft, #ef4444);
+  color: #fff;
 }

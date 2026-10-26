@@ -1,8 +1,6 @@
 import './App.css'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import Rotating from './components/Rotating'
-import StrokeText from './components/StrokeText'
 import TargetCursor from './components/TargetCursor'
 import Folder from './components/Folder'
 import ProfileCard from './components/ProfilCard'
@@ -139,6 +137,7 @@ const certificatesData = {
 // Data section Skills. Dikelompokkan jadi 4 kartu: Front-end, Back-end, Data & Analytics, Tools.
 // - tag : label kecil di pojok kanan kartu
 // - src : pakai CDN simple-icons (warna #f5f5f5) atau file lokal di /public
+// - use : penjelasan singkat tentang aplikasi/tool tersebut, tampil di bawah nama di grid Tech Stack.
 // Tinggal tambah/hapus objek di array items untuk mengubah daftarnya.
 const skillGroups = [
   {
@@ -153,11 +152,11 @@ const skillGroups = [
       </>
     ),
     items: [
-      { src: 'https://cdn.simpleicons.org/html5/f5f5f5', alt: 'HTML5', title: 'HTML5' },
-      { src: '/tools/css.png', alt: 'CSS3', title: 'CSS3' },
-      { src: 'https://cdn.simpleicons.org/javascript/f5f5f5', alt: 'JavaScript', title: 'JavaScript' },
-      { src: 'https://cdn.simpleicons.org/react/f5f5f5', alt: 'React', title: 'React' },
-      { src: 'https://cdn.simpleicons.org/vuedotjs/f5f5f5', alt: 'Vue.js', title: 'Vue.js' },
+      { src: 'https://cdn.simpleicons.org/html5/f5f5f5', alt: 'HTML5', title: 'HTML5', use: 'Bahasa markup untuk menyusun struktur halaman web.' },
+      { src: '/tools/css.png', alt: 'CSS3', title: 'CSS3', use: 'Bahasa gaya untuk mengatur tampilan dan tata letak web.' },
+      { src: 'https://cdn.simpleicons.org/javascript/f5f5f5', alt: 'JavaScript', title: 'JavaScript', use: 'Bahasa pemrograman untuk membuat halaman web interaktif.' },
+      { src: 'https://cdn.simpleicons.org/react/f5f5f5', alt: 'React', title: 'React', use: 'Library JavaScript untuk membangun antarmuka berbasis komponen.' },
+      { src: 'https://cdn.simpleicons.org/vuedotjs/f5f5f5', alt: 'Vue.js', title: 'Vue.js', use: 'Framework JavaScript untuk membangun antarmuka web yang reaktif.' },
     ],
   },
   {
@@ -173,10 +172,10 @@ const skillGroups = [
       </>
     ),
     items: [
-      { src: 'https://cdn.simpleicons.org/php/f5f5f5', alt: 'PHP', title: 'PHP' },
-      { src: 'https://cdn.simpleicons.org/laravel/f5f5f5', alt: 'Laravel', title: 'Laravel' },
-      { src: 'https://cdn.simpleicons.org/mysql/f5f5f5', alt: 'MySQL', title: 'MySQL' },
-      { src: 'https://cdn.simpleicons.org/mongodb/f5f5f5', alt: 'MongoDB', title: 'MongoDB' },
+      { src: 'https://cdn.simpleicons.org/php/f5f5f5', alt: 'PHP', title: 'PHP', use: 'Bahasa pemrograman sisi server untuk membangun aplikasi web.' },
+      { src: 'https://cdn.simpleicons.org/laravel/f5f5f5', alt: 'Laravel', title: 'Laravel', use: 'Framework PHP untuk membangun aplikasi web yang terstruktur.' },
+      { src: 'https://cdn.simpleicons.org/mysql/f5f5f5', alt: 'MySQL', title: 'MySQL', use: 'Sistem basis data relasional untuk menyimpan data dalam tabel.' },
+      { src: 'https://cdn.simpleicons.org/mongodb/f5f5f5', alt: 'MongoDB', title: 'MongoDB', use: 'Basis data NoSQL yang menyimpan data dalam bentuk dokumen.' },
     ],
   },
   {
@@ -191,11 +190,11 @@ const skillGroups = [
       </>
     ),
     items: [
-      { src: '/tools/tableau.jpg', alt: 'Tableau', title: 'Tableau' },
-      { src: '/tools/excel.png', alt: 'Microsoft Excel', title: 'Excel' },
-      { src: 'https://cdn.simpleicons.org/python/f5f5f5', alt: 'Python', title: 'Python' },
-      { src: 'https://cdn.simpleicons.org/scikitlearn/f5f5f5', alt: 'scikit-learn', title: 'scikit-learn' },
-      { src: 'https://cdn.simpleicons.org/googlecolab/f5f5f5', alt: 'Google Colab', title: 'Google Colab' },
+      { src: '/tools/tableau.jpg', alt: 'Tableau', title: 'Tableau', use: 'Aplikasi visualisasi data untuk membuat dashboard interaktif.' },
+      { src: '/tools/excel.png', alt: 'Microsoft Excel', title: 'Excel', use: 'Aplikasi spreadsheet untuk mengolah dan menganalisis data.' },
+      { src: 'https://cdn.simpleicons.org/python/f5f5f5', alt: 'Python', title: 'Python', use: 'Bahasa pemrograman serbaguna yang populer untuk analisis data.' },
+      { src: 'https://cdn.simpleicons.org/scikitlearn/f5f5f5', alt: 'scikit-learn', title: 'scikit-learn', use: 'Library Python untuk machine learning.' },
+      { src: 'https://cdn.simpleicons.org/googlecolab/f5f5f5', alt: 'Google Colab', title: 'Google Colab', use: 'Layanan notebook Python berbasis cloud dari Google.' },
     ],
   },
   {
@@ -207,74 +206,37 @@ const skillGroups = [
       <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4Z" />
     ),
     items: [
-      { src: 'https://cdn.simpleicons.org/git/f5f5f5', alt: 'Git', title: 'Git' },
-      { src: '/tools/visual.png', alt: 'Visual Studio Code', title: 'VS Code' },
-      { src: 'https://cdn.simpleicons.org/claude/f5f5f5', alt: 'Claude', title: 'Claude' },
-      { src: '/tools/chat.png', alt: 'ChatGPT', title: 'ChatGPT' },
-      { src: 'https://cdn.simpleicons.org/googlegemini/f5f5f5', alt: 'Gemini', title: 'Gemini' },
-      { src: 'https://cdn.simpleicons.org/postman/f5f5f5', alt: 'Postman', title: 'Postman' },
-      { src: 'https://cdn.simpleicons.org/notion/f5f5f5', alt: 'Notion', title: 'Notion' },
-      { src: 'https://cdn.simpleicons.org/figma/f5f5f5', alt: 'Figma', title: 'Figma' },
-      { src: '/tools/canva.png', alt: 'Canva', title: 'Canva' },
-      { src: '/tools/word.png', alt: 'Microsoft Word', title: 'Word' },
-      { src: '/tools/ppt.png', alt: 'Microsoft PowerPoint', title: 'PowerPoint' },
+      { src: 'https://cdn.simpleicons.org/git/f5f5f5', alt: 'Git', title: 'Git', use: 'Sistem kontrol versi untuk melacak perubahan kode.' },
+      { src: '/tools/visual.png', alt: 'Visual Studio Code', title: 'VS Code', use: 'Editor kode gratis dari Microsoft.' },
+      { src: 'https://cdn.simpleicons.org/claude/f5f5f5', alt: 'Claude', title: 'Claude', use: 'Asisten AI buatan Anthropic.' },
+      { src: '/tools/chat.png', alt: 'ChatGPT', title: 'ChatGPT', use: 'Asisten AI buatan OpenAI.' },
+      { src: 'https://cdn.simpleicons.org/googlegemini/f5f5f5', alt: 'Gemini', title: 'Gemini', use: 'Asisten AI buatan Google.' },
+      { src: 'https://cdn.simpleicons.org/postman/f5f5f5', alt: 'Postman', title: 'Postman', use: 'Aplikasi untuk menguji dan mendokumentasikan API.' },
+      { src: 'https://cdn.simpleicons.org/notion/f5f5f5', alt: 'Notion', title: 'Notion', use: 'Aplikasi catatan dan manajemen tugas.' },
+      { src: 'https://cdn.simpleicons.org/figma/f5f5f5', alt: 'Figma', title: 'Figma', use: 'Aplikasi desain antarmuka dan prototipe berbasis web.' },
+      { src: '/tools/canva.png', alt: 'Canva', title: 'Canva', use: 'Aplikasi desain grafis berbasis web.' },
+      { src: '/tools/word.png', alt: 'Microsoft Word', title: 'Word', use: 'Aplikasi pengolah kata dari Microsoft.' },
+      { src: '/tools/ppt.png', alt: 'Microsoft PowerPoint', title: 'PowerPoint', use: 'Aplikasi presentasi slide dari Microsoft.' },
     ],
   },
 ];
 
-// Kartu "Hard Skill & Soft Skill" (kolom tambahan di section Skills).
-// Tinggal tambah/hapus teks di array items untuk mengubah isinya.
-const abilityColumns = [
-  {
-    id: 'hard',
-    title: 'Hard Skill',
-    items: [
-      'Pengembangan Web — React, PHP, Laravel',
-      'Perancangan Sistem Informasi — UML, DFD',
-      'Pengelolaan Basis Data — MySQL, MongoDB',
-      'Pengolahan Data — Data Cleaning & EDA',
-      'Visualisasi Data — Tableau, Excel',
-      'Machine Learning Dasar',
-    ],
-  },
-  {
-    id: 'soft',
-    title: 'Soft Skill',
-    items: [
-      'Kerja Sama Tim',
-      'Komunikasi',
-      'Kepemimpinan dan Koordinasi',
-      'Pemecahan Masalah',
-      'Manajemen Waktu',
-      'Adaptasi dan Kemauan Belajar',
-    ],
-  },
-];
-
-// Tab kategori di section Skills. Semua kategori setara; "Semua" tampil dulu.
-// skillTabOf menentukan tiap kartu masuk ke tab yang mana.
-const skillTabs = [
-  { id: 'all', label: 'Semua' },
-  { id: 'ability', label: 'Hard & Soft Skill' },
-  { id: 'data', label: 'Data & Analytics' },
-  { id: 'web', label: 'Web' },
-  { id: 'tools', label: 'Tools' },
-];
-const skillTabOf = { data: 'data', frontend: 'web', backend: 'web', tools: 'tools' };
-// Urutan kartu di tab "Semua" (Hard & Soft Skill selalu paling atas)
+// Urutan tool di grid Tech Stack (datar, tanpa kartu kategori):
+// Data & Analytics -> Front-end -> Back-end -> Tools.
 const skillOrder = ['data', 'frontend', 'backend', 'tools']
   .map((id) => skillGroups.find((g) => g.id === id))
   .filter(Boolean);
+const flatTools = skillOrder.flatMap((g) => g.items.map((t) => ({ ...t, group: g.id })));
 
-// Total tools di semua kartu Skills (dipakai untuk angka ringkasan)
+// Tiga tombol di section gabungan "Pengalaman, Keahlian & Proyek".
+const showcaseTabs = [
+  { id: 'experience', label: 'Pengalaman & Organisasi' },
+  { id: 'skills', label: 'Keahlian Saya' },
+  { id: 'projects', label: 'Proyek Saya' },
+];
+
+// Total tools (dipakai untuk angka ringkasan)
 const totalTools = skillGroups.reduce((n, g) => n + g.items.length, 0);
-
-// Sorotan cahaya di kartu Skills mengikuti kursor (hanya terasa di perangkat mouse)
-const handleSkillMove = (e) => {
-  const r = e.currentTarget.getBoundingClientRect();
-  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
-  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
-};
 
 // Data kartu Experience & Organization. Tinggal ubah/tambah objek di sini;
 // tampilannya otomatis ikut.
@@ -1122,123 +1084,160 @@ function ExperienceDetail({ item, onClose }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose, preview]);
 
+  // Garis kemajuan tipis di atas jendela: ikut memanjang saat isi di-scroll
+  const barRef = useRef(null);
+  const handlePanelScroll = (e) => {
+    const el = e.currentTarget;
+    const max = el.scrollHeight - el.clientHeight;
+    if (barRef.current) {
+      barRef.current.style.transform = `scaleX(${max > 0 ? el.scrollTop / max : 0})`;
+    }
+  };
+
+  const cover = gallery[0];
+  const extraPhotos = gallery.slice(1);
+  const paragraphs = Array.isArray(item.desc) ? item.desc : item.desc ? [item.desc] : [];
+
   return (
     <div className="experience-modal" onClick={onClose} role="presentation">
       <div
-        className="experience-modal-panel"
+        className="experience-modal-panel xd-panel"
         role="dialog"
         aria-modal="true"
         aria-label={item.title}
         onClick={(e) => e.stopPropagation()}
+        onScroll={handlePanelScroll}
       >
+        <div className="xd-progress" aria-hidden="true">
+          <span ref={barRef} />
+        </div>
+
         <button
           type="button"
-          className="experience-modal-close"
+          className="experience-modal-close xd-close"
           onClick={onClose}
           aria-label="Tutup"
         >
           ×
         </button>
 
-        {gallery.length > 0 && (
-          <div className="experience-modal-gallery">
-            {gallery.map((src, i) => (
-              <img
-                key={`${src}-${i}`}
-                src={src}
-                alt={`${item.imageAlt} ${i + 1}`}
-                className={i === 0 ? 'is-main' : ''}
-                loading="lazy"
-              />
-            ))}
+        {/* Header sinematik: foto penuh + gradasi, judul tampil di atasnya */}
+        <header className={`xd-hero${cover ? '' : ' xd-hero--plain'}`}>
+          {cover && (
+            <img
+              className={`xd-hero__img${item.fit === 'contain' ? ' is-contain' : ''}`}
+              src={cover}
+              alt={item.imageAlt}
+            />
+          )}
+          <div className="xd-hero__shade" aria-hidden="true" />
+          <div className="xd-hero__text">
+            <span className="xd-badge">{item.badge}</span>
+            <h3 className="xd-title">{item.title}</h3>
+            {item.meta && <p className="xd-meta">{item.meta}</p>}
           </div>
-        )}
+        </header>
 
-        <div
-          className={`experience-modal-body ${gallery.length === 0 ? 'experience-modal-body--no-media' : ''}`}
-        >
-        <div className="experience-badge">{item.badge}</div>
-        <h3>{item.title}</h3>
-        <p className="experience-meta">{item.meta}</p>
-        {(Array.isArray(item.desc) ? item.desc : item.desc ? [item.desc] : []).map((paragraph) => (
-          <p key={paragraph} className="experience-desc experience-desc--wide experience-desc--para">
-            {paragraph}
-          </p>
-        ))}
-
-        {item.screens && item.screens.length > 0 && (
-          <ScreenSwitcher screens={item.screens} onOpen={setPreview} />
-        )}
-
-        {item.activities && item.activities.length > 0 && (
-          <div className="experience-block">
-            <h4 className="experience-block-title">{item.activitiesTitle}</h4>
-            <div className="experience-activities">
-              {item.activities.map((activity) => (
-                <article key={activity.title} className="experience-activity">
-                  <div className="experience-activity-info">
-                    <h5 className="experience-activity-title">{activity.title}</h5>
-                    <p className="experience-activity-text">{activity.text}</p>
-                  </div>
-                  <ActivityPhotos
-                    title={activity.title}
-                    photos={activity.photos}
-                    onOpen={setPreview}
-                  />
-                </article>
+        <div className="xd-body">
+          {paragraphs.length > 0 && (
+            <div className="xd-intro">
+              {paragraphs.map((paragraph, i) => (
+                <p
+                  key={paragraph}
+                  className={`experience-desc experience-desc--wide${i === 0 ? ' xd-lead' : ''}`}
+                >
+                  {paragraph}
+                </p>
               ))}
             </div>
-          </div>
-        )}
+          )}
 
-        {item.points && (
-          <div className="experience-block">
-            <h4 className="experience-block-title">{item.pointsTitle}</h4>
-            <ul className="experience-list">
-              {item.points.map((point) => (
-                <li key={point}>{point}</li>
+          {extraPhotos.length > 0 && (
+            <div className="xd-photos">
+              {extraPhotos.map((src, i) => (
+                <img
+                  key={`${src}-${i}`}
+                  src={src}
+                  alt={`${item.imageAlt} ${i + 2}`}
+                  loading="lazy"
+                />
               ))}
-            </ul>
-          </div>
-        )}
+            </div>
+          )}
 
-        {item.findings && (
-          <div className="experience-block">
-            <h4 className="experience-block-title">{item.findingsTitle}</h4>
-            <ul className="experience-list">
-              {item.findings.map((finding) => (
-                <li key={finding}>{finding}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+          {item.screens && item.screens.length > 0 && (
+            <ScreenSwitcher screens={item.screens} onOpen={setPreview} />
+          )}
 
-        {item.tags && (
-          <div className={item.tagsTitle ? 'experience-block' : undefined}>
-            {item.tagsTitle && (
-              <h4 className="experience-block-title">{item.tagsTitle}</h4>
-            )}
-            <div
-              className="experience-tags"
-              style={item.tagsTitle ? { marginTop: 0 } : undefined}
+          {item.activities && item.activities.length > 0 && (
+            <section className="xd-section">
+              <h4 className="xd-section-title">{item.activitiesTitle}</h4>
+              <ol className="xd-timeline">
+                {item.activities.map((activity, i) => (
+                  <li key={activity.title} className="xd-step">
+                    <span className="xd-step__dot" aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <article className="experience-activity">
+                      <div className="experience-activity-info">
+                        <h5 className="experience-activity-title">{activity.title}</h5>
+                        <p className="experience-activity-text">{activity.text}</p>
+                      </div>
+                      <ActivityPhotos
+                        title={activity.title}
+                        photos={activity.photos}
+                        onOpen={setPreview}
+                      />
+                    </article>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {item.points && (
+            <section className="xd-section">
+              <h4 className="xd-section-title">{item.pointsTitle}</h4>
+              <ul className="xd-list">
+                {item.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {item.findings && (
+            <section className="xd-section">
+              <h4 className="xd-section-title">{item.findingsTitle}</h4>
+              <ul className="xd-list">
+                {item.findings.map((finding) => (
+                  <li key={finding}>{finding}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {item.tags && (
+            <section className="xd-section">
+              <h4 className="xd-section-title">{item.tagsTitle || 'Fokus & Keahlian'}</h4>
+              <div className="xd-tags">
+                {item.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {item.link && (
+            <a
+              href={item.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="experience-link xd-link cursor-target"
             >
-              {item.tags.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {item.link && (
-          <a
-            href={item.link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="experience-link cursor-target"
-          >
-            {item.link.label} →
-          </a>
-        )}
+              {item.link.label} →
+            </a>
+          )}
         </div>
       </div>
 
@@ -1575,29 +1574,6 @@ function ScreenSwitcher({ screens, onOpen }) {
   );
 }
 
-// StrokeText butuh fontSize dalam angka px (SVG), bukan string CSS clamp().
-// Hook ini meniru perilaku clamp(48px, 8vw, 100px) supaya ukurannya tetap
-// menyesuaikan lebar layar seperti judul aslinya.
-function useHeroStrokeFontSize() {
-  const [fontSize, setFontSize] = useState(96);
-
-  useEffect(() => {
-    const calc = () => {
-      const w = window.innerWidth;
-      if (w <= 640) {
-        // HP: nama harus muat satu baris di lebar layar
-        setFontSize(Math.max(28, Math.min(56, (w - 40) / 9.6)));
-      } else {
-        setFontSize(Math.min(100, Math.max(48, w * 0.08)));
-      }
-    };
-    calc();
-    window.addEventListener('resize', calc);
-    return () => window.removeEventListener('resize', calc);
-  }, []);
-
-  return fontSize;
-}
 
 // Ganti USERNAME dengan username asli sebelum dikirim ke HRD.
 // Access key Web3Forms (gratis, tanpa backend). Daftar di https://web3forms.com,
@@ -1867,9 +1843,7 @@ function Footer({ theme }) {
   const navLinks = [
     { href: '#about', label: 'Tentang' },
     { href: '#education', label: 'Pendidikan' },
-    { href: '#experience', label: 'Pengalaman' },
-    { href: '#skills', label: 'Keahlian' },
-    { href: '#projects', label: 'Proyek' },
+    { href: '#showcase', label: 'Portofolio' },
     { href: '#certifications', label: 'Sertifikat' },
   ]
 
@@ -1991,8 +1965,34 @@ function Footer({ theme }) {
   )
 }
 
+// Nama hero dipecah per huruf supaya tiap huruf bisa "mengalir" sendiri-sendiri.
+// --i = urutan huruf (untuk jeda gelombang), --t = 0..1 (untuk gradasi warna merah -> putih).
+function HeroLetters({ text }) {
+  const chars = [...text];
+  return chars.map((ch, i) => (
+    <span
+      key={`${ch}-${i}`}
+      className="hs-ch"
+      style={{ '--i': i, '--t': Math.min(1, i / (chars.length * 0.45)).toFixed(2) }}
+    >
+      {ch}
+    </span>
+  ));
+}
+
 function App() {
-  const heroFontSize = useHeroStrokeFontSize();
+  // Hero: ref untuk efek parallax mouse + muat font Syne (huruf lebar & tebal)
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    if (document.getElementById('hero-font')) return;
+    const link = document.createElement('link');
+    link.id = 'hero-font';
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Syne:wght@800&display=swap';
+    document.head.appendChild(link);
+  }, []);
+
   // Efek cursor hanya untuk perangkat dengan mouse (bukan layar sentuh)
   const [hasFinePointer] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
@@ -2050,15 +2050,13 @@ function App() {
   const [projectSlide, setProjectSlide] = useState(0);
   // Posisi sentuhan awal (untuk swipe kiri/kanan di slider project)
   const projectTouchX = useRef(null);
-  // Tab kategori di section Skills (awal: Semua)
-  const [skillTab, setSkillTab] = useState('all');
-  const showSkillCard = (tab) => skillTab === 'all' || skillTab === tab;
-  const visibleSkillGroups = skillOrder.filter((g) => showSkillCard(skillTabOf[g.id]));
-  // Jumlah kolom kartu biasa (Tools & Hard/Soft Skill selalu selebar penuh)
-  const skillCols = Math.min(
-    3,
-    Math.max(1, visibleSkillGroups.filter((g) => g.id !== 'tools').length)
-  );
+  // Tombol aktif di section gabungan (awal: Pengalaman & Organisasi)
+  const [showcaseTab, setShowcaseTab] = useState('experience');
+  // Dipakai tombol "Lihat Proyek" di hero: buka tab Proyek lalu gulir ke section
+  const openShowcase = (tab) => {
+    setShowcaseTab(tab);
+    document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
   const totalProjectSlides = projectItems.length;
   // Pindah ke slide tertentu; kalau lewat ujung, muter ke sisi sebaliknya
   const goProjectSlide = (i) =>
@@ -2188,9 +2186,7 @@ function App() {
     { href: '#home', label: 'Beranda' },
     { href: '#about', label: 'Tentang' },
     { href: '#education', label: 'Pendidikan' },
-    { href: '#experience', label: 'Pengalaman' },
-    { href: '#skills', label: 'Keahlian' },
-    { href: '#projects', label: 'Proyek' },
+    { href: '#showcase', label: 'Portofolio' },
     { href: '#certifications', label: 'Sertifikat' },
     { href: '#contact', label: 'Kontak' },
   ];
@@ -2398,8 +2394,11 @@ function App() {
 
         <ThemeToggle theme={theme} onChange={changeTheme} />
 
-        <a href="#contact" className="nav-button cursor-target">
-          Let's Talk
+        <a href="/cv.pdf" download className="nav-button nav-button--cv cursor-target">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ marginRight: 8 }}>
+            <path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16" />
+          </svg>
+          Unduh CV
         </a>
 
         {/* Hamburger — tampil di tablet/HP lewat CSS */}
@@ -2445,25 +2444,38 @@ function App() {
           </a>
         ))}
         <a
-          href="#contact"
+          href="/cv.pdf"
+          download
           className="nav-button"
           style={{ '--i': navLinks.length }}
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Let's Talk
+          Unduh CV
         </a>
       </div>
 
 
-      {/* Hero */}
+      {/* Hero — nama besar di belakang foto (cutout), glow merah, rail sosial kiri */}
       <section
         id="home"
-        className="hero"
+        ref={heroRef}
+        className="hero hero--stage"
         onMouseEnter={() => setIsHeroHovered(true)}
-        onMouseLeave={() => setIsHeroHovered(false)}
-        style={{
-          position: 'relative',
-          overflow: 'hidden'
+        onMouseMove={(e) => {
+          // Parallax halus: nilai -0.5 .. 0.5 dipakai CSS (--px, --py)
+          const el = heroRef.current;
+          if (!el || !hasFinePointer) return;
+          const r = el.getBoundingClientRect();
+          el.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+          el.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+        }}
+        onMouseLeave={() => {
+          setIsHeroHovered(false);
+          const el = heroRef.current;
+          if (el) {
+            el.style.setProperty('--px', '0');
+            el.style.setProperty('--py', '0');
+          }
         }}
       >
 
@@ -2475,124 +2487,76 @@ function App() {
             spinDuration={2}
             hideDefaultCursor={true}
             cursorColor={theme === 'light' ? '#17132b' : '#ffffff'}
-            cursorColorOnTarget="#8b5cf6"
+            cursorColorOnTarget="#ef4444"
           />
         )}
 
-        {/* Background Aurora (CSS saja) + benang SVG ringan */}
-        <div className="hero-aurora" aria-hidden="true">
-          <span className="hero-aurora-blob hero-aurora-blob--1" />
-          <span className="hero-aurora-blob hero-aurora-blob--2" />
-          <span className="hero-aurora-blob hero-aurora-blob--3" />
-          <span className="hero-aurora-grid" />
+        {/* Latar: glow merah + cincin tipis */}
+        <div className="hs-glow" aria-hidden="true" />
+
+        {/* Rail sosial (vertikal di kiri; di HP jadi baris di atas) */}
+        <div className="hs-rail">
+          <a
+            href="https://instagram.com/abdnn26"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            className="cursor-target"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/muhamad-abidin-845098315"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="cursor-target"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm6.5 0h3.83v1.64h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.14V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4V9Z" />
+            </svg>
+          </a>
+          <a
+            href="https://github.com/Abidin1203"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="cursor-target"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.61.56.1.76-.24.76-.54 0-.27-.01-1.16-.02-2.11-3.11.68-3.77-1.32-3.77-1.32-.51-1.3-1.24-1.65-1.24-1.65-1.01-.7.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.71 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.48-.28-5.1-1.24-5.1-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.54.22 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.62 5.24-5.12 5.52.4.35.76 1.03.76 2.08 0 1.5-.01 2.71-.01 3.08 0 .3.2.65.77.54A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z" />
+            </svg>
+          </a>
         </div>
 
-        {/* Floating 3D Orb: bola ungu melayang (CSS saja, tanpa canvas/WebGL) */}
-        <div className="hero-orbs" aria-hidden="true">
-          <div className="hero-orb hero-orb--big">
-            <span className="hero-orb__ring" />
-          </div>
-          <div className="hero-orb hero-orb--small" />
-          <div className="hero-orb hero-orb--tiny" />
-        </div>
+        {/* Lapisan 1: nama raksasa (di belakang foto) */}
+        <h1 className="hs-names" aria-label="Muhamad A'biddin S.Kom">
+          <span className="hs-name hs-name--front" aria-hidden="true"><HeroLetters text="MUHAMAD" /></span>
+          <span className="hs-name hs-name--back" aria-hidden="true"><HeroLetters text="A'BIDDIN" /></span>
+        </h1>
 
-        <div
-          className="hero-content"
-          style={{
-            position: 'relative',
-            zIndex: 1
-          }}
-        >
-          <p className="hero-greeting">
-            HALO, SAYA
-          </p>
-
-          <h1 className="hero-stroke-title">
-            <StrokeText
-              key={theme}
-              text="Muhamad A'biddin"
-              trigger="mount"
-              fontSize={heroFontSize}
-              fontWeight={700}
-              letterSpacing={-Math.round(heroFontSize * 0.05)}
-              strokeColor={theme === 'light' ? '#7c3aed' : '#8b5cf6'}
-              fillColor={theme === 'light' ? '#17132b' : '#f5f5f5'}
-              drawDuration={1.6}
-              fillDelay={0.15}
-              stagger={0.04}
+        {/* Lapisan 2: foto cutout (PNG/WebP tanpa background) */}
+        <div className="hs-photo">
+          <picture>
+            <source srcSet="/hero/abidin.webp" type="image/webp" />
+            <img
+              src="/hero/abidin.png"
+              alt="Foto Muhamad A'biddin mengenakan jas"
+              width="590"
+              height="1040"
+              loading="eager"
+              decoding="async"
+              draggable="false"
             />
-          </h1>
-
-          <h2>
-            Lulusan Informatika &amp;{' '}
-            <Rotating
-              texts={['Pengolahan Data', 'Sistem Informasi', 'Pengembangan Web']}
-              mainClassName="hero-rotating-text"
-              rotationInterval={2200}
-              staggerDuration={0.02}
-              splitBy="characters"
-            />
-          </h2>
-
-          <p className="hero-description">
-            Saya mengolah data dan membangun sistem informasi untuk membantu
-            pekerjaan menjadi lebih rapi, efisien, dan mudah dipantau.
-          </p>
-
-          <div className="hero-buttons">
-            <a
-              href="#projects"
-              className="primary-button cursor-target"
-            >
-              Lihat Proyek
-            </a>
-
-            <a
-              href="#about"
-              className="secondary-button cursor-target"
-            >
-              Tentang Saya
-            </a>
-
-            <a
-              href="/cv.pdf"
-              download
-              className="secondary-button cursor-target"
-            >
-              Unduh CV
-            </a>
-          </div>
-
-          {/* Social Links */}
-          <div className="hero-socials">
-            <a
-              href="https://github.com/Abidin1203"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="cursor-target"
-            >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 .5C5.73.5.98 5.24.98 11.52c0 4.94 3.2 9.13 7.65 10.61.56.1.76-.24.76-.54 0-.27-.01-1.16-.02-2.11-3.11.68-3.77-1.32-3.77-1.32-.51-1.3-1.24-1.65-1.24-1.65-1.01-.7.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.71 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.48-.28-5.1-1.24-5.1-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.54.22 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.62 5.24-5.12 5.52.4.35.76 1.03.76 2.08 0 1.5-.01 2.71-.01 3.08 0 .3.2.65.77.54A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z" />
-              </svg>
-              GitHub
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/muhamad-abidin-845098315"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="cursor-target"
-            >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm6.5 0h3.83v1.64h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.14V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4V9Z" />
-              </svg>
-              LinkedIn
-            </a>
-
-          </div>
+          </picture>
         </div>
+
+        {/* Lapisan 3: fade gelap di dasar hero supaya menyatu dengan section berikutnya */}
+        <div className="hs-fade" aria-hidden="true" />
 
       </section>
 
@@ -2604,10 +2568,6 @@ function App() {
         <p className="section-label">
           TENTANG SAYA
         </p>
-
-        <h2>
-          Mengenal saya <span>lebih dekat.</span>
-        </h2>
 
         <div className="about-grid">
 
@@ -2668,6 +2628,25 @@ function App() {
               memberikan kontribusi terbaik dalam setiap tanggung jawab yang
               diberikan.
             </p>
+
+            <div className="about-actions reveal" style={{ '--reveal-delay': '0.35s' }}>
+              <a href="/cv.pdf" download className="primary-button cursor-target">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ marginRight: 8 }}>
+                  <path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16" />
+                </svg>
+                Unduh CV
+              </a>
+              <a
+                href="#showcase"
+                className="secondary-button cursor-target"
+                onClick={(e) => {
+                  e.preventDefault();
+                  openShowcase('projects');
+                }}
+              >
+                Lihat Proyek
+              </a>
+            </div>
 
             <div className="about-journey reveal" style={{ '--reveal-delay': '0.4s' }}>
               <div className="about-journey__lead">
@@ -2859,346 +2838,294 @@ function App() {
         </div>
       </section>
 
-      {/* Experience / Organization */}
-      <section
-        id="experience"
-        className="section experience"
-      >
-        <p className="section-label">
-          PENGALAMAN & ORGANISASI
-        </p>
-
-        <h2>
-          Belajar di luar kelas.
-        </h2>
-
-        {/* Kartu tersusun ke bawah, scroll halaman biasa (laptop & HP sama).
-            Tiap kartu muncul pelan (fade + naik) saat masuk layar. */}
-        <div className="experience-list-cards">
-          {experienceItems.map((item, i) => (
-            <div
-              key={item.badge}
-              className="experience-item reveal"
-              style={{ '--reveal-delay': `${(i % 3) * 0.08}s` }}
+      {/* Portofolio: Pengalaman & Organisasi, Keahlian, dan Proyek digabung jadi satu
+          section, ganti isi lewat 3 tombol.
+          Kedua panel selalu dirender (yang tidak aktif disembunyikan) supaya
+          posisi slider proyek & tab skill tidak hilang saat berpindah. */}
+      <div id="showcase" className="showcase">
+        <div className="showcase-switch" role="tablist" aria-label="Keahlian dan Proyek">
+          {showcaseTabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              id={`showcase-tab-${tab.id}`}
+              aria-selected={showcaseTab === tab.id}
+              aria-controls={`showcase-panel-${tab.id}`}
+              className={`showcase-tab cursor-target${showcaseTab === tab.id ? ' is-active' : ''}`}
+              onClick={() => setShowcaseTab(tab.id)}
             >
-              <div className="experience-card experience-card--wide experience-card--list">
-                <ExperienceCardContent
-                  item={item}
-                  onOpen={setSelectedExperience}
-                />
-              </div>
-            </div>
+              {tab.label}
+            </button>
           ))}
         </div>
 
+        <div
+          id="showcase-panel-experience"
+          role="tabpanel"
+          aria-labelledby="showcase-tab-experience"
+          hidden={showcaseTab !== 'experience'}
+        >
+          <section
+            id="experience"
+            className="section experience"
+          >
+            <p className="section-label">
+              PENGALAMAN & ORGANISASI
+            </p>
+
+            <h2>
+              Belajar di luar kelas.
+            </h2>
+
+            {/* Kartu tersusun ke bawah, scroll halaman biasa (laptop & HP sama).
+                Tiap kartu muncul pelan (fade + naik) saat masuk layar. */}
+            <div className="experience-list-cards">
+              {experienceItems.map((item, i) => (
+                <div
+                  key={item.badge}
+                  className="experience-item reveal"
+                  style={{ '--reveal-delay': `${(i % 3) * 0.08}s` }}
+                >
+                  <div className="experience-card experience-card--wide experience-card--list">
+                    <ExperienceCardContent
+                      item={item}
+                      onOpen={setSelectedExperience}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </section>
+        </div>
+
+        <div
+          id="showcase-panel-skills"
+          role="tabpanel"
+          aria-labelledby="showcase-tab-skills"
+          hidden={showcaseTab !== 'skills'}
+        >
+          <section
+            id="skills"
+            className="section"
+          >
+            <p className="section-label">
+              KEAHLIAN SAYA
+            </p>
+
+            <div className="skills-meta reveal" style={{ '--reveal-delay': '0.1s' }}>
+              <span>
+                <strong><CountUp to={totalTools} duration={1200} /></strong> tools
+              </span>
+            </div>
+
+            <div className="skills-stage reveal" style={{ '--reveal-delay': '0.15s' }}>
+              {/* Tech Stack: tiap tool tampil sendiri-sendiri (tanpa kartu kategori) */}
+              <h3 className="stack-title">Tech Stack</h3>
+              <ul className="stack-grid">
+                {flatTools.map((tool, n) => (
+                  <li
+                    key={tool.alt}
+                    className="stack-tile cursor-target"
+                    data-group={tool.group}
+                    style={{ '--d': n }}
+                  >
+                    <span className="skills-tool-icon-wrap">
+                      <img src={tool.src} alt={tool.alt} loading="lazy" decoding="async" />
+                    </span>
+                    <span className="stack-tile__text">
+                      <span className="stack-tile__name">{tool.title}</span>
+                      {tool.use && <span className="stack-tile__use">{tool.use}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <div
+          id="showcase-panel-projects"
+          role="tabpanel"
+          aria-labelledby="showcase-tab-projects"
+          hidden={showcaseTab !== 'projects'}
+        >
+          <section
+            id="projects"
+            className="section projects"
+          >
+            {/* Laptop 3D di latar (CSS 3D saja, tanpa library) */}
+            <FloatingLaptop />
+
+            <p className="section-label">
+              PROYEK SAYA
+            </p>
+
+            <h2>
+              Proyek yang pernah saya kerjakan.
+            </h2>
+
+            {/* Slider project: satu project per slide. Geser dengan tombol < >, titik
+                penanda, swipe di HP, atau panah keyboard (saat slider difokus). */}
+            <div
+              className="pjc reveal"
+              role="region"
+              aria-roledescription="carousel"
+              aria-label="Daftar project"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowLeft') {
+                  e.preventDefault();
+                  goProjectSlide(projectSlide - 1);
+                } else if (e.key === 'ArrowRight') {
+                  e.preventDefault();
+                  goProjectSlide(projectSlide + 1);
+                }
+              }}
+            >
+              <div
+                className="pjc-viewport"
+                onTouchStart={(e) => {
+                  projectTouchX.current = e.touches[0].clientX;
+                }}
+                onTouchEnd={(e) => {
+                  if (projectTouchX.current === null) return;
+                  const dx = e.changedTouches[0].clientX - projectTouchX.current;
+                  projectTouchX.current = null;
+                  if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+                  goProjectSlide(projectSlide + (dx < 0 ? 1 : -1));
+                }}
+              >
+                <div
+                  className="pjc-track"
+                  style={{ '--pjc-index': projectSlide }}
+                >
+                  {projectItems.map((project, i) => {
+                    const isActive = projectSlide === i;
+                    const open = () => project.detail && setSelectedExperience(project.detail);
+                    return (
+                      <article
+                        key={project.number}
+                        className={`pjc-slide${isActive ? ' is-active' : ''}`}
+                        role="group"
+                        aria-roledescription="slide"
+                        aria-label={`${i + 1} dari ${totalProjectSlides}`}
+                        aria-hidden={!isActive}
+                      >
+                        <div className="pjc-card">
+                          <div
+                            className={`pjc-media${project.detail ? ' cursor-target' : ''}`}
+                            onClick={open}
+                          >
+                            <span className="pjc-media__fallback" aria-hidden="true">
+                              PROJECT {project.number}
+                            </span>
+                            {project.image && (
+                              <img
+                                src={project.image}
+                                alt={`Tampilan ${project.title}`}
+                                loading="lazy"
+                                decoding="async"
+                                draggable="false"
+                                onError={hideBrokenImage}
+                              />
+                            )}
+                            <span className="pjc-media__num" aria-hidden="true">{project.number}</span>
+                          </div>
+
+                          <div className="pjc-body">
+                            <span className="pjc-eyebrow">Project {project.number}</span>
+                            <h3>{project.title}</h3>
+                            <p>{project.summary}</p>
+
+                            {project.impact && (
+                              <div className="pjc-impact">
+                                <span className="pjc-impact__label">Manfaat</span>
+                                <p>{project.impact}</p>
+                              </div>
+                            )}
+
+                            <div className="pjc-tech">
+                              {project.tech.map((tech) => (
+                                <span key={tech}>{tech}</span>
+                              ))}
+                            </div>
+
+                            {project.detail && (
+                              <button
+                                type="button"
+                                className="experience-details-btn cursor-target"
+                                tabIndex={isActive ? 0 : -1}
+                                onClick={open}
+                              >
+                                Details <span aria-hidden="true">→</span>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="pjc-controls">
+                <button
+                  type="button"
+                  className="pjc-arrow cursor-target"
+                  aria-label="Project sebelumnya"
+                  onClick={() => goProjectSlide(projectSlide - 1)}
+                >
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+
+                <div className="pjc-dots" role="tablist" aria-label="Pilih project">
+                  {projectItems.map((project, i) => (
+                    <button
+                      key={project.number}
+                      type="button"
+                      role="tab"
+                      aria-selected={projectSlide === i}
+                      aria-label={`Project ${project.number}`}
+                      className={`pjc-dot cursor-target${projectSlide === i ? ' is-active' : ''}`}
+                      onClick={() => goProjectSlide(i)}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  className="pjc-arrow cursor-target"
+                  aria-label="Project berikutnya"
+                  onClick={() => goProjectSlide(projectSlide + 1)}
+                >
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+
+              <p className="pjc-counter" aria-live="polite">
+                <strong>{String(projectSlide + 1).padStart(2, '0')}</strong>
+                {' / '}
+                {String(totalProjectSlides).padStart(2, '0')}
+              </p>
+            </div>
+          </section>
+        </div>
+
+        {/* Jendela detail (Pengalaman & Proyek). Dirender di luar panel supaya
+            tetap tampil walau tab asalnya sedang tersembunyi. */}
         {selectedExperience && (
           <ExperienceDetail
             item={selectedExperience}
             onClose={() => setSelectedExperience(null)}
           />
         )}
-      </section>
-
-      {/* Skills */}
-      <section
-        id="skills"
-        className="section"
-      >
-        <p className="section-label">
-          KEAHLIAN SAYA
-        </p>
-
-        <h2>
-          Keahlian &amp; <span>Tools</span>
-        </h2>
-
-        <p className="skills-lead reveal">
-          Kemampuan teknis dan tools yang saya gunakan untuk mengembangkan
-          sistem berbasis web, mengolah data menjadi informasi yang mudah
-          dipahami, serta mendukung penyelesaian pekerjaan secara efektif.
-          Kemampuan ini juga dilengkapi dengan kerja sama tim, komunikasi, dan
-          kemauan untuk terus belajar.
-        </p>
-
-        <div className="skills-meta reveal" style={{ '--reveal-delay': '0.1s' }}>
-          <span>
-            <strong><CountUp to={skillGroups.length} duration={900} /></strong> kategori
-          </span>
-          <span>
-            <strong><CountUp to={totalTools} duration={1200} /></strong> tools
-          </span>
-        </div>
-
-        {/* Tab kategori + kartu. Tab "Semua" tampil dulu supaya semua bidang setara. */}
-        <div className="skills-stage reveal" style={{ '--reveal-delay': '0.15s' }}>
-          <div className="skills-tabs" role="tablist" aria-label="Kategori skill">
-            {skillTabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                id={`skills-tab-${tab.id}`}
-                aria-selected={skillTab === tab.id}
-                aria-controls="skills-panel"
-                className={`skills-tab cursor-target${skillTab === tab.id ? ' is-active' : ''}`}
-                onClick={() => setSkillTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div
-            key={skillTab}
-            id="skills-panel"
-            role="tabpanel"
-            aria-labelledby={`skills-tab-${skillTab}`}
-            className="skills-cards"
-            data-cols={skillCols}
-            style={{ '--skills-cols': skillCols }}
-          >
-            {/* Hard Skill & Soft Skill (paling atas) */}
-            {showSkillCard('ability') && (
-              <div
-                className="skill-group skill-group--ability"
-                style={{ '--ci': 0 }}
-                onMouseMove={handleSkillMove}
-              >
-                <div className="skill-group-head">
-                  <span className="skill-group-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                  </span>
-                  <div className="skill-group-heading">
-                    <div className="skill-group-title-row">
-                      <h3>Hard Skill &amp; Soft Skill</h3>
-                      <span className="skill-group-tag">Kemampuan</span>
-                    </div>
-                    <p className="skill-group-desc">Kemampuan teknis dan kemampuan diri yang saya kembangkan melalui pendidikan, proyek, dan pengalaman berorganisasi.</p>
-                  </div>
-                </div>
-
-                <div className="skill-ability-cols">
-                  {abilityColumns.map((col) => (
-                    <div key={col.id} className={`skill-ability-col skill-ability-col--${col.id}`}>
-                      <h4 className="skill-ability-title">{col.title}</h4>
-                      <ul className="skill-ability-list">
-                        {col.items.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {visibleSkillGroups.map((group, i) => (
-              <div
-                key={group.id}
-                className={`skill-group skill-group--${group.id}`}
-                style={{ '--ci': i + (showSkillCard('ability') ? 1 : 0) }}
-                onMouseMove={handleSkillMove}
-              >
-                <div className="skill-group-head">
-                  <span className="skill-group-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      {group.icon}
-                    </svg>
-                  </span>
-                  <div className="skill-group-heading">
-                    <div className="skill-group-title-row">
-                      <h3>{group.title}</h3>
-                      <span className="skill-group-tag">{group.tag}</span>
-                    </div>
-                    <p className="skill-group-desc">{group.desc}</p>
-                  </div>
-                </div>
-
-                <div className="skill-group-grid">
-                  {group.items.map((tool, n) => (
-                    <div key={tool.alt} className="skills-tool-item" style={{ '--d': n }}>
-                      <span className="skills-tool-icon-wrap">
-                        <img src={tool.src} alt={tool.alt} title={tool.title} />
-                      </span>
-                      <span>{tool.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section
-        id="projects"
-        className="section projects"
-      >
-        {/* Laptop 3D di latar (CSS 3D saja, tanpa library) */}
-        <FloatingLaptop />
-
-        <p className="section-label">
-          PROYEK SAYA
-        </p>
-
-        <h2>
-          Proyek yang pernah saya kerjakan.
-        </h2>
-
-        {/* Slider project: satu project per slide. Geser dengan tombol < >, titik
-            penanda, swipe di HP, atau panah keyboard (saat slider difokus). */}
-        <div
-          className="pjc reveal"
-          role="region"
-          aria-roledescription="carousel"
-          aria-label="Daftar project"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'ArrowLeft') {
-              e.preventDefault();
-              goProjectSlide(projectSlide - 1);
-            } else if (e.key === 'ArrowRight') {
-              e.preventDefault();
-              goProjectSlide(projectSlide + 1);
-            }
-          }}
-        >
-          <div
-            className="pjc-viewport"
-            onTouchStart={(e) => {
-              projectTouchX.current = e.touches[0].clientX;
-            }}
-            onTouchEnd={(e) => {
-              if (projectTouchX.current === null) return;
-              const dx = e.changedTouches[0].clientX - projectTouchX.current;
-              projectTouchX.current = null;
-              if (Math.abs(dx) < SWIPE_THRESHOLD) return;
-              goProjectSlide(projectSlide + (dx < 0 ? 1 : -1));
-            }}
-          >
-            <div
-              className="pjc-track"
-              style={{ '--pjc-index': projectSlide }}
-            >
-              {projectItems.map((project, i) => {
-                const isActive = projectSlide === i;
-                const open = () => project.detail && setSelectedExperience(project.detail);
-                return (
-                  <article
-                    key={project.number}
-                    className={`pjc-slide${isActive ? ' is-active' : ''}`}
-                    role="group"
-                    aria-roledescription="slide"
-                    aria-label={`${i + 1} dari ${totalProjectSlides}`}
-                    aria-hidden={!isActive}
-                  >
-                    <div className="pjc-card">
-                      <div
-                        className={`pjc-media${project.detail ? ' cursor-target' : ''}`}
-                        onClick={open}
-                      >
-                        <span className="pjc-media__fallback" aria-hidden="true">
-                          PROJECT {project.number}
-                        </span>
-                        {project.image && (
-                          <img
-                            src={project.image}
-                            alt={`Tampilan ${project.title}`}
-                            loading="lazy"
-                            decoding="async"
-                            draggable="false"
-                            onError={hideBrokenImage}
-                          />
-                        )}
-                        <span className="pjc-media__num" aria-hidden="true">{project.number}</span>
-                      </div>
-
-                      <div className="pjc-body">
-                        <span className="pjc-eyebrow">Project {project.number}</span>
-                        <h3>{project.title}</h3>
-                        <p>{project.summary}</p>
-
-                        {project.impact && (
-                          <div className="pjc-impact">
-                            <span className="pjc-impact__label">Manfaat</span>
-                            <p>{project.impact}</p>
-                          </div>
-                        )}
-
-                        <div className="pjc-tech">
-                          {project.tech.map((tech) => (
-                            <span key={tech}>{tech}</span>
-                          ))}
-                        </div>
-
-                        {project.detail && (
-                          <button
-                            type="button"
-                            className="experience-details-btn cursor-target"
-                            tabIndex={isActive ? 0 : -1}
-                            onClick={open}
-                          >
-                            Details <span aria-hidden="true">→</span>
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="pjc-controls">
-            <button
-              type="button"
-              className="pjc-arrow cursor-target"
-              aria-label="Project sebelumnya"
-              onClick={() => goProjectSlide(projectSlide - 1)}
-            >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="m15 18-6-6 6-6" />
-              </svg>
-            </button>
-
-            <div className="pjc-dots" role="tablist" aria-label="Pilih project">
-              {projectItems.map((project, i) => (
-                <button
-                  key={project.number}
-                  type="button"
-                  role="tab"
-                  aria-selected={projectSlide === i}
-                  aria-label={`Project ${project.number}`}
-                  className={`pjc-dot cursor-target${projectSlide === i ? ' is-active' : ''}`}
-                  onClick={() => goProjectSlide(i)}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              className="pjc-arrow cursor-target"
-              aria-label="Project berikutnya"
-              onClick={() => goProjectSlide(projectSlide + 1)}
-            >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
-          </div>
-
-          <p className="pjc-counter" aria-live="polite">
-            <strong>{String(projectSlide + 1).padStart(2, '0')}</strong>
-            {' / '}
-            {String(totalProjectSlides).padStart(2, '0')}
-          </p>
-        </div>
-      </section>
+      </div>
 
       {/* Certifications */}
       <section
