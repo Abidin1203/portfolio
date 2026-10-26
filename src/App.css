@@ -9184,7 +9184,6 @@ html {
   }
 }
 
-
 /* =====================================================================
    HERO bersih (tanpa jabatan & tombol) + tombol CV di About
 ===================================================================== */
@@ -9212,7 +9211,6 @@ html {
     margin-bottom: 16px;
   }
 }
-
 
 /* =====================================================================
    NAMA HERO LENTUR — tiap huruf mengalir seperti gelombang/cairan
@@ -9287,7 +9285,6 @@ html {
   background: var(--hero-red-soft, #ef4444);
   color: #fff;
 }
-
 
 /* =====================================================================
    HERO — ANIMASI PEMBUKA (saat link dibuka)
@@ -9427,4 +9424,36 @@ html {
   .hero.hero--stage .hs-names {
     top: 12%;
   }
+}
+
+/* =====================================================================
+   HERO — NAMA TERLIHAT PENUH
+   1) Ukuran huruf mengikuti lebar layar (tidak lagi terpotong di kiri/kanan)
+   2) Posisi nama diturunkan ke sekitar leher/bahu supaya wajah tidak tertutup
+   3) Salinan outline di depan foto, jadi huruf yang berada di belakang
+      badan tetap terbaca
+===================================================================== */
+.hs-name {
+  font-size: min(10.4vw, 196px);
+}
+
+.hero.hero--stage .hs-names {
+  top: 24%;
+}
+
+@media (max-width: 900px) {
+  .hero.hero--stage .hs-names {
+    top: 26%;
+  }
+}
+
+@media (max-width: 700px) {
+  .hs-name {
+    font-size: 10.6vw;
+  }
+
+  .hero.hero--stage .hs-names {
+    top: 30%;
+  }
+
 }
