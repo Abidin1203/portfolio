@@ -2494,6 +2494,10 @@ function App() {
         {/* Latar: glow merah + cincin tipis */}
         <div className="hs-glow" aria-hidden="true" />
 
+        {/* Berkas cahaya: menyapu sekali saat halaman dibuka, lalu pelan berulang */}
+        <div className="hs-beam" aria-hidden="true" />
+        <div className="hs-beam hs-beam--loop" aria-hidden="true" />
+
         {/* Rail sosial (vertikal di kiri; di HP jadi baris di atas) */}
         <div className="hs-rail">
           <a

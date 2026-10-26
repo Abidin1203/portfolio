@@ -9287,3 +9287,144 @@ html {
   background: var(--hero-red-soft, #ef4444);
   color: #fff;
 }
+
+
+/* =====================================================================
+   HERO — ANIMASI PEMBUKA (saat link dibuka)
+   Urutan: glow menyala -> berkas cahaya menyapu -> nama bergeser masuk
+   dari dua sisi (depan dari kiri, belakang dari kanan) -> foto muncul
+   dari gelap/kabur menjadi tajam -> huruf mulai mengalir.
+   Hanya transform/opacity/filter. Mati otomatis kalau "kurangi gerakan".
+===================================================================== */
+.hs-beam {
+  position: absolute;
+  top: -20%;
+  left: -40%;
+  width: 26%;
+  height: 140%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg,
+    transparent,
+    rgb(255 255 255 / 0.30) 42%,
+    rgb(252 165 165 / 0.38) 55%,
+    transparent);
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  transform: skewX(-18deg);
+}
+
+:root[data-theme="light"] .hs-beam {
+  background: linear-gradient(90deg,
+    transparent,
+    rgb(239 68 68 / 0.20) 50%,
+    transparent);
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hs-beam-sweep {
+    0%   { opacity: 0;    transform: translateX(0) skewX(-18deg); }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { opacity: 0;    transform: translateX(520%) skewX(-18deg); }
+  }
+
+  @keyframes hs-slide-left {
+    from { opacity: 0; translate: -24vw 0; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes hs-slide-right {
+    from { opacity: 0; translate: 24vw 0; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes hs-photo-reveal {
+    from {
+      opacity: 0;
+      translate: 0 70px;
+      filter: brightness(0.25) blur(12px) drop-shadow(0 20px 40px rgb(0 0 0 / 0.5));
+    }
+    60% {
+      opacity: 1;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+      filter: brightness(1) blur(0) drop-shadow(0 20px 40px rgb(0 0 0 / 0.5));
+    }
+  }
+
+  @keyframes hs-glow-ignite {
+    0%   { opacity: 0; scale: 0.55; }
+    55%  { opacity: 1; scale: 1.06; }
+    100% { opacity: 1; scale: 1; }
+  }
+
+  /* glow menyala dari tengah, lalu berdenyut pelan */
+  .hs-glow {
+    animation:
+      hs-glow-ignite 1.6s cubic-bezier(0.22, 1, 0.36, 1) both,
+      hs-glow-pulse 6s ease-in-out 1.7s infinite;
+  }
+
+  /* berkas cahaya: sekali saat dibuka, lalu tiap ~9 detik lebih samar */
+  .hs-beam {
+    animation: hs-beam-sweep 1.9s cubic-bezier(0.5, 0, 0.2, 1) 0.45s 1 both;
+  }
+
+  .hs-beam--loop {
+    animation: hs-beam-sweep 2.6s ease-in-out 5s infinite;
+    animation-duration: 2.6s;
+    filter: blur(10px);
+    width: 18%;
+  }
+
+  /* dua baris nama bergeser masuk dari sisi berlawanan */
+  .hs-name--front { animation: hs-slide-left 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+  .hs-name--back  { animation: hs-slide-right 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+
+  /* foto muncul dari gelap/kabur menjadi tajam */
+  .hs-photo img {
+    animation: hs-photo-reveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
+  }
+
+  /* huruf baru mulai mengalir setelah semuanya masuk */
+  .hs-name--front .hs-ch {
+    animation:
+      hs-ch-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i) * 70ms + 300ms) both,
+      hs-wave 4.4s ease-in-out calc(var(--i) * -0.5s + 1.8s) infinite;
+  }
+
+  .hs-name--back .hs-ch {
+    animation:
+      hs-ch-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i) * 70ms + 500ms) both,
+      hs-wave 5.6s ease-in-out calc(var(--i) * -0.6s + 2.2s) infinite reverse;
+  }
+}
+
+/* =====================================================================
+   HERO — FOTO LEBIH BESAR
+   Ubah angka tinggi di bawah ini kalau ingin lebih besar / kecil lagi.
+===================================================================== */
+.hs-photo {
+  height: min(102%, 980px);
+}
+
+@media (max-width: 900px) {
+  .hs-photo {
+    height: min(92%, 700px);
+  }
+}
+
+@media (max-width: 700px) {
+  .hs-photo {
+    height: min(80%, 600px);
+  }
+
+  .hero.hero--stage .hs-names {
+    top: 12%;
+  }
+}
